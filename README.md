@@ -40,7 +40,7 @@ Link: https://www.atlassian.com/git/tutorials/install-git
 
 Find a suitable area to put the files and type the command. 
 ```
-  - git clone https://github.com/Mica56/ModSim-Project.git
+  - git clone https://github.com/Mica56/OOP-Project-PUP-OrgSearch.git
 ```
 # Modify only the folder you are assigned to.
 
