@@ -5,6 +5,9 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
+
+import GUI.ModSimCollgeFinderLogin;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.DropMode;
@@ -13,32 +16,25 @@ import java.awt.Canvas;
 import javax.swing.JTextArea;
 import javax.swing.JSeparator;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Homescreen {
+public class Homescreen implements Runnable {
 
 	private JFrame frmHomescreen;
 	private JTextField txtEmail;
 	private JTextField txtPassword;
 
-
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Homescreen window = new Homescreen();
-					window.frmHomescreen.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			Homescreen window = new Homescreen();
+			window.frmHomescreen.setVisible(true);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Homescreen() {
-		initialize();
-	}
-
-	private void initialize() {
 		frmHomescreen = new JFrame();
 		frmHomescreen.setTitle("Homescreen");
 		frmHomescreen.setBackground(new Color(128, 0, 0));
@@ -118,11 +114,23 @@ public class Homescreen {
 		btnLogin.setBackground(new Color(255, 255, 255));
 		btnLogin.setBounds(431, 338, 89, 23);
 		frmHomescreen.getContentPane().add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				frmHomescreen.dispose();
+			}
+		});
 		
 		JButton btnCreateAppAcc = new JButton("Create Applicant Account");
 		btnCreateAppAcc.setBackground(new Color(255, 255, 255));
 		btnCreateAppAcc.setBounds(384, 374, 180, 26);
 		frmHomescreen.getContentPane().add(btnCreateAppAcc);
+		btnCreateAppAcc.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivitySignUp();
+				frmHomescreen.dispose();
+			}
+		});
 		
 		JLabel lblPolytechnicU = new JLabel("Polytechnic University");
 		lblPolytechnicU.setBackground(new Color(255, 255, 255));
@@ -163,4 +171,6 @@ public class Homescreen {
 		lblNewLabel_1.setBounds(0, 0, 310, 461);
 		frmHomescreen.getContentPane().add(lblNewLabel_1);
 	}
+
+
 }

@@ -12,9 +12,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ImageIcon;
 
-public class Profile extends JFrame {
+public class Profile extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JTextField txtName;
@@ -23,17 +26,13 @@ public class Profile extends JFrame {
 	private JTextField txtEmail;
 	private JPasswordField pwPassword;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Profile frame = new Profile();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			Profile frame = new Profile();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Profile() {
@@ -146,6 +145,12 @@ public class Profile extends JFrame {
 		btnCreateAnOrganization.setBackground(SystemColor.text);
 		btnCreateAnOrganization.setBounds(68, 358, 121, 33);
 		contentPane.add(btnCreateAnOrganization);
+		btnCreateAnOrganization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityCreateOrg();
+				Profile.this.dispose();
+			}
+		});
 		
 		JButton btnLeaveAnOrganization = new JButton("Leave an Org");
 		btnLeaveAnOrganization.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -153,6 +158,12 @@ public class Profile extends JFrame {
 		btnLeaveAnOrganization.setBackground(SystemColor.text);
 		btnLeaveAnOrganization.setBounds(195, 358, 115, 33);
 		contentPane.add(btnLeaveAnOrganization);
+		btnLeaveAnOrganization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityLeaveOrg();
+				Profile.this.dispose();
+			}
+		});
 		
 		JButton btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -160,6 +171,12 @@ public class Profile extends JFrame {
 		btnBack.setBackground(SystemColor.text);
 		btnBack.setBounds(158, 411, 66, 23);
 		contentPane.add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				Profile.this.dispose();
+			}
+		});
 		
 		JLabel lblLogo = new JLabel("New label");
 		lblLogo.setIcon(new ImageIcon(Profile.class.getResource("/image/PUPLogo (1).png")));
@@ -173,7 +190,8 @@ public class Profile extends JFrame {
 		lblPOS.setBounds(108, 11, 230, 36);
 		contentPane.add(lblPOS);
 		
-		JLabel lblSearch = new JLabel("SEARCH");
+		//what is this 
+		JLabel lblSearch = new JLabel("SEARCHhhhhhhhhhhhhhhhhh");
 		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSearch.setForeground(Color.WHITE);
 		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 21));
