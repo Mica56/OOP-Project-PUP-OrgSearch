@@ -7,6 +7,9 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -14,22 +17,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
 
-public class NewsFeed extends JFrame {
+public class NewsFeed extends JFrame implements Runnable {
 
 	private JPanel contentPane;
-	private JTextField txtSearch;
+	private JButton btnSearch;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					NewsFeed frame = new NewsFeed();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			NewsFeed frame = new NewsFeed();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public NewsFeed() {
@@ -50,6 +49,12 @@ public class NewsFeed extends JFrame {
 		JButton btnLogout = new JButton("Logout");
 		btnLogout.setBounds(147, 410, 89, 23);
 		contentPane.add(btnLogout);
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityMain();
+				NewsFeed.this.dispose();
+			}
+		});
 		
 		JLabel lblPOS = new JLabel("PUP ORGANIZATION");
 		lblPOS.setHorizontalAlignment(SwingConstants.CENTER);
@@ -65,22 +70,37 @@ public class NewsFeed extends JFrame {
 		lblSearch.setBounds(111, 60, 99, 36);
 		contentPane.add(lblSearch);
 		
-		txtSearch = new JTextField();
-		txtSearch.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSearch.setText("Search an Organization");
-		txtSearch.setBounds(123, 130, 200, 36);
-		contentPane.add(txtSearch);
-		txtSearch.setColumns(10);
+		btnSearch = new JButton();
+		btnSearch.setHorizontalAlignment(SwingConstants.CENTER);
+		btnSearch.setText("Search an Organization");
+		btnSearch.setBackground(new Color(220, 220, 220));
+		btnSearch.setBounds(143, 130, 180, 36);
+		contentPane.add(btnSearch);
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivitySearch();
+				NewsFeed.this.dispose();
+			}
+		});
 		
-		JLabel lblNewLabel = new JLabel("Profile");
-		lblNewLabel.setForeground(new Color(255, 255, 255));
-		lblNewLabel.setBounds(69, 130, 36, 36);
-		contentPane.add(lblNewLabel);
+		JButton btnProfileButton = new JButton("Profile");
+		btnProfileButton.setFont(new Font("Tahoma", Font.BOLD, 10));
+		btnProfileButton.setForeground(new Color(0, 0, 0));
+		btnProfileButton.setBackground(new Color(220, 220, 220));
+		btnProfileButton.setBounds(69, 130, 70, 36);
+		contentPane.add(btnProfileButton);
+		btnProfileButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityProfile();
+				NewsFeed.this.dispose();
+			}
+		});
 		
+		
+		//PRINT NEWS FEED HERE FROM DATABASE
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(69, 177, 254, 206);
 		contentPane.add(scrollPane);
-		
 		JList list = new JList();
 		scrollPane.setViewportView(list);
 	}

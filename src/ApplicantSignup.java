@@ -12,8 +12,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ApplicantSignup extends JFrame {
+public class ApplicantSignup extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JTextField txtFullName;
@@ -22,17 +24,13 @@ public class ApplicantSignup extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtPassword;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ApplicantSignup frame = new ApplicantSignup();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			ApplicantSignup frame = new ApplicantSignup();
+			frame.setVisible(true);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public ApplicantSignup() {
@@ -103,5 +101,11 @@ public class ApplicantSignup extends JFrame {
 		btnFinish.setBackground(SystemColor.text);
 		btnFinish.setBounds(148, 381, 89, 28);
 		contentPane.add(btnFinish);
+		btnFinish.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityMain();
+				ApplicantSignup.this.dispose();
+			}
+		});
 	}
 }

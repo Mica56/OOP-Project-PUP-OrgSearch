@@ -12,8 +12,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CreateAnOrg extends JFrame {
+public class CreateAnOrg extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 	private JTextField txtNameOfOrganization;
@@ -26,17 +28,13 @@ public class CreateAnOrg extends JFrame {
 	private JLabel lblSearch;
 	private JLabel lblNewLabel;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateAnOrg frame = new CreateAnOrg();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			CreateAnOrg frame = new CreateAnOrg();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public CreateAnOrg() {
@@ -98,6 +96,12 @@ public class CreateAnOrg extends JFrame {
 		btnBack.setBackground(SystemColor.menu);
 		btnBack.setBounds(95, 377, 89, 30);
 		contentPane.add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityProfile();
+				CreateAnOrg.this.dispose();
+			}
+		});
 		
 		lblSearch = new JLabel("SEARCH");
 		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);

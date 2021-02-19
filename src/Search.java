@@ -14,25 +14,24 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import java.awt.List;
 import java.awt.Scrollbar;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-public class Search extends JFrame {
+public class Search extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 	private JTextField txtSearch;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Search frame = new Search();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			Search frame = new Search();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Search() {
@@ -74,6 +73,12 @@ public class Search extends JFrame {
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(151, 407, 89, 23);
 		contentPane.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				Search.this.dispose();
+			}
+		});
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(76, 173, 237, 205);

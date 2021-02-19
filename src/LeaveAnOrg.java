@@ -7,27 +7,26 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
 
-public class LeaveAnOrg extends JFrame {
+public class LeaveAnOrg extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LeaveAnOrg frame = new LeaveAnOrg();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			LeaveAnOrg frame = new LeaveAnOrg();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 
@@ -70,6 +69,12 @@ public class LeaveAnOrg extends JFrame {
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(150, 393, 89, 23);
 		contentPane.add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityProfile();
+				LeaveAnOrg.this.dispose();
+			}
+		});
 	}
 
 }
