@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class Profile extends JFrame implements Runnable {
 
@@ -29,10 +30,20 @@ public class Profile extends JFrame implements Runnable {
 	private JTextField txtStudNum;
 	private JTextField txtEmail;
 	private JPasswordField pwPassword;
+	
+	private JButton btnEdit;
+	private JButton btnEdit1;
+	private JButton btnEdit2;
+	private JButton btnEdit3;
+	private JButton btnEdit4;
+	private JButton btnCreateAnOrganization;
+	private JButton btnLeaveAnOrganization;
+	private JButton btnBack;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
+	private ResultSet objResultSet;
 
 	public void run() {
 		try {
@@ -64,6 +75,7 @@ public class Profile extends JFrame implements Runnable {
 
         if (boolConn2Db) {
             ProfileGUI();
+	    setupListener();
         }  // if (boolConn2Db)
     }  // Profile() 
 
@@ -89,7 +101,7 @@ public class Profile extends JFrame implements Runnable {
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
-		JButton btnEdit = new JButton("Edit");
+		btnEdit = new JButton("Edit");
 		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit.setForeground(SystemColor.windowText);
 		btnEdit.setBackground(SystemColor.text);
@@ -108,7 +120,7 @@ public class Profile extends JFrame implements Runnable {
 		txtCollege.setBounds(46, 150, 189, 23);
 		contentPane.add(txtCollege);
 		
-		JButton btnEdit1 = new JButton("Edit");
+		btnEdit1 = new JButton("Edit");
 		btnEdit1.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit1.setForeground(SystemColor.windowText);
 		btnEdit1.setBackground(SystemColor.text);
@@ -127,7 +139,7 @@ public class Profile extends JFrame implements Runnable {
 		txtStudNum.setBounds(46, 202, 189, 23);
 		contentPane.add(txtStudNum);
 		
-		JButton btnEdit2 = new JButton("Edit");
+		btnEdit2 = new JButton("Edit");
 		btnEdit2.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit2.setForeground(SystemColor.windowText);
 		btnEdit2.setBackground(SystemColor.text);
@@ -146,7 +158,7 @@ public class Profile extends JFrame implements Runnable {
 		txtEmail.setBounds(46, 255, 189, 23);
 		contentPane.add(txtEmail);
 		
-		JButton btnEdit3 = new JButton("Edit");
+		btnEdit3 = new JButton("Edit");
 		btnEdit3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit3.setForeground(SystemColor.windowText);
 		btnEdit3.setBackground(SystemColor.text);
@@ -159,7 +171,7 @@ public class Profile extends JFrame implements Runnable {
 		lblPassword.setBounds(46, 285, 60, 26);
 		contentPane.add(lblPassword);
 		
-		JButton btnEdit4 = new JButton("Edit");
+		btnEdit4 = new JButton("Edit");
 		btnEdit4.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit4.setForeground(SystemColor.windowText);
 		btnEdit4.setBackground(SystemColor.text);
@@ -171,44 +183,26 @@ public class Profile extends JFrame implements Runnable {
 		pwPassword.setBounds(46, 308, 189, 23);
 		contentPane.add(pwPassword);
 		
-		JButton btnCreateAnOrganization = new JButton("Create an Org");
+		btnCreateAnOrganization = new JButton("Create an Org");
 		btnCreateAnOrganization.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnCreateAnOrganization.setForeground(SystemColor.windowText);
 		btnCreateAnOrganization.setBackground(SystemColor.text);
 		btnCreateAnOrganization.setBounds(68, 358, 121, 33);
 		contentPane.add(btnCreateAnOrganization);
-		btnCreateAnOrganization.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityCreateOrg();
-				Profile.this.dispose();
-			}
-		});
 		
-		JButton btnLeaveAnOrganization = new JButton("Leave an Org");
+		btnLeaveAnOrganization = new JButton("Leave an Org");
 		btnLeaveAnOrganization.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnLeaveAnOrganization.setForeground(SystemColor.windowText);
 		btnLeaveAnOrganization.setBackground(SystemColor.text);
 		btnLeaveAnOrganization.setBounds(195, 358, 115, 33);
 		contentPane.add(btnLeaveAnOrganization);
-		btnLeaveAnOrganization.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityLeaveOrg();
-				Profile.this.dispose();
-			}
-		});
 		
-		JButton btnBack = new JButton("Back");
+		btnBack = new JButton("Back");
 		btnBack.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnBack.setForeground(SystemColor.windowText);
 		btnBack.setBackground(SystemColor.text);
 		btnBack.setBounds(158, 411, 66, 23);
 		contentPane.add(btnBack);
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityNewsFeed();
-				Profile.this.dispose();
-			}
-		});
 		
 		JLabel lblLogo = new JLabel("New label");
 		lblLogo.setIcon(new ImageIcon(Profile.class.getResource("/image/PUPLogo (1).png")));
@@ -229,5 +223,61 @@ public class Profile extends JFrame implements Runnable {
 		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 21));
 		lblSearch.setBounds(108, 41, 99, 36);
 		contentPane.add(lblSearch);
+		
+		
+	}
+
+	public void setupListener() {
+		/*
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});
+
+		btnEdit1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});
+		
+		btnEdit2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});
+
+		btnEdit3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});
+		
+		btnEdit4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});*/
+
+		btnCreateAnOrganization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityCreateOrg();
+				Profile.this.dispose();
+			}
+		});
+		
+		btnLeaveAnOrganization.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityLeaveOrg();
+				Profile.this.dispose();
+			}
+		});
+
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				Profile.this.dispose();
+			}
+		});
 	}
 }
