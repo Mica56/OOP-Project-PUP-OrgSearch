@@ -17,10 +17,18 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 public class NewsFeed extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JButton btnSearch;
+
+	private Connection objConn;
+	private boolean boolConn2Db;
+	private Statement objSQLQuery;
 
 	public void run() {
 		try {
@@ -31,7 +39,31 @@ public class NewsFeed extends JFrame implements Runnable {
 		}
 	}
 
-	public NewsFeed() {
+	NewsFeed() {
+	String strDriver = "com.mysql.cj.jdbc.Driver";
+        String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
+        String strUser = "linus";
+        String strPass = "password123";
+
+        boolConn2Db = false;
+
+        try {        
+            Class.forName(strDriver);
+            objConn = DriverManager.getConnection(strConn, strUser, strPass);   
+            objSQLQuery = objConn.createStatement(); 
+             
+            boolConn2Db = true;
+        } catch (Exception objEx) {
+            System.out.println("Problem retrieving information..");
+            System.out.println(objEx);
+        }  // try
+
+        if (boolConn2Db) {
+            NewsFeedGUI();
+        }  // if (boolConn2Db)
+    }  // NewsFeed() 
+
+	public void NewsFeedGUI() {
 		setTitle("News Feed");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);

@@ -15,6 +15,10 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 public class CreateAnOrg extends JFrame implements Runnable{
 
 	private JPanel contentPane;
@@ -28,6 +32,10 @@ public class CreateAnOrg extends JFrame implements Runnable{
 	private JLabel lblSearch;
 	private JLabel lblNewLabel;
 
+	private Connection objConn;
+	private boolean boolConn2Db;
+	private Statement objSQLQuery;
+
 	public void run() {
 		try {
 			CreateAnOrg frame = new CreateAnOrg();
@@ -37,7 +45,31 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		}
 	}
 
-	public CreateAnOrg() {
+	CreateAnOrg() {
+	String strDriver = "com.mysql.cj.jdbc.Driver";
+        String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
+        String strUser = "linus";
+        String strPass = "password123";
+
+        boolConn2Db = false;
+
+        try {        
+            Class.forName(strDriver);
+            objConn = DriverManager.getConnection(strConn, strUser, strPass);   
+            objSQLQuery = objConn.createStatement(); 
+             
+            boolConn2Db = true;
+        } catch (Exception objEx) {
+            System.out.println("Problem retrieving information..");
+            System.out.println(objEx);
+        }  // try
+
+        if (boolConn2Db) {
+            CreateAnOrgGUI();
+        }  // if (boolConn2Db)
+    }  // CreateAnOrg()   
+
+	public void CreateAnOrgGUI() {
 		setTitle("Create an Organization");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
