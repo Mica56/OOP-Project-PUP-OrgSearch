@@ -6,8 +6,6 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import GUI.ModSimCollgeFinderLogin;
-
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.DropMode;
@@ -19,11 +17,19 @@ import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 public class Homescreen implements Runnable {
 
 	private JFrame frmHomescreen;
 	private JTextField txtEmail;
 	private JTextField txtPassword;
+
+	private Connection objConn;
+	private boolean boolConn2Db;
+	private Statement objSQLQuery;
 
 	public void run() {
 		try {
@@ -34,7 +40,31 @@ public class Homescreen implements Runnable {
 		}
 	}
 
-	public Homescreen() {
+	Homescreen() {
+	String strDriver = "com.mysql.cj.jdbc.Driver";
+        String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
+        String strUser = "linus";
+        String strPass = "password123";
+
+        boolConn2Db = false;
+
+        try {        
+            Class.forName(strDriver);
+            objConn = DriverManager.getConnection(strConn, strUser, strPass);   
+            objSQLQuery = objConn.createStatement(); 
+             
+            boolConn2Db = true;
+        } catch (Exception objEx) {
+            System.out.println("Problem retrieving information..");
+            System.out.println(objEx);
+        }  // try
+
+        if (boolConn2Db) {
+            HomescreenGUI();
+        }  // if (boolConn2Db)
+    }  // Homescreen() 
+
+	public void HomescreenGUI() {
 		frmHomescreen = new JFrame();
 		frmHomescreen.setTitle("Homescreen");
 		frmHomescreen.setBackground(new Color(128, 0, 0));
