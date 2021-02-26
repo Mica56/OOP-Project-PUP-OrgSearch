@@ -16,19 +16,27 @@ import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
+import java.util.ArrayList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class NewsFeed extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JButton btnSearch;
+	private ArrayList<String> objPosts;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
+	private ResultSet objResultSet;
 
 	public void run() {
 		try {
@@ -125,16 +133,53 @@ public class NewsFeed extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				NewsFeed.this.dispose();
+				if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
 			}
 		});
 		
+		try {
+                    String strSQLQuery = "SELECT strheading, strbody, dtime " +
+                                                      "FROM tblposts " + 
+                                                      "ORDER BY dtime";            
+      		    objPosts = new ArrayList<String>();
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+
+               		 String strheading = objResultSet.getString("strheading");
+                	 String strbody = objResultSet.getString("strbody");
+                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
+			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+			 
+			 String strtime = sdf.format(dtime);                  
+
+			 objPosts.add(strheading);
+			 objPosts.add(strbody);
+			 objPosts.add(strtime);
+
+           	 	}  // while (objResultSet.next())
+		   objResultSet.close();             
+       		 } catch (Exception objEx) {
+
+           		 System.out.println("Problem retrieving information..");
+           		 System.out.println(objEx);
+
+       		 }// try
 		
 		//PRINT NEWS FEED HERE FROM DATABASE
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(69, 177, 254, 206);
 		contentPane.add(scrollPane);
-		JList list = new JList();
-		scrollPane.setViewportView(list);
+		JList list = new JList(objPosts.toArray());
+		scrollPane.setViewportView(list);	
 	}
 
 }

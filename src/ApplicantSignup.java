@@ -135,6 +135,39 @@ public class ApplicantSignup extends JFrame implements Runnable {
 		contentPane.add(btnFinish);
 		btnFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
+				try {
+				String strname = txtFullName.getText().trim();
+                    		String strcollege = txtCollege.getText().trim();
+                    		String strstudnum = txtStudentNumber.getText().trim();
+                  		String stremail = txtEmail.getText().trim();
+				String strpass = txtPassword.getText().trim();  
+
+				String strSQLInsert = "INSERT INTO tbluser " + 
+                                              "(strname, strcollege, strstudnum, stremail, strpass) " + 
+                                              "VALUES " + 
+                                              "('" + strname + "', '" + strcollege + "', '" + strstudnum + "', '" + stremail + "', '" + strpass + "');"; 
+            
+           			 objSQLQuery.executeUpdate(strSQLInsert);
+           			 System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			} finally {
+
+            			if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
+
+       				 }  // try
 				MainActivity.ActivityMain();
 				ApplicantSignup.this.dispose();
 			}

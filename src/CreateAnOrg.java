@@ -123,6 +123,44 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		btnDone.setBackground(SystemColor.menu);
 		btnDone.setBounds(194, 377, 89, 30);
 		contentPane.add(btnDone);
+		btnDone.addActionListener(new ActionListener() {//lacks insert to tblimage
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+				String strorgname = txtNameOfOrganization.getText().trim();
+                    		String strorgtype = txtTypeOfOrganization.getText().trim();
+                    		String strorgemail = txtOrganizationEmail.getText().trim();
+                  		String strorgdes = txtDescription.getText().trim();
+
+				String strSQLInsert = "INSERT INTO tblorg " + 
+                                              "(strorgname, strorgtype, strorgemail, strorgdes) " + 
+                                              "VALUES " + 
+                                              "('" + strorgname + "', '" + strorgtype + "', '" + strorgemail + "', '" + strorgdes + "');"; 
+            
+           			 objSQLQuery.executeUpdate(strSQLInsert);
+           			 System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			} finally {
+
+            			if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
+
+       				 }  // try
+				MainActivity.ActivityProfile();
+				CreateAnOrg.this.dispose();				
+			}
+		});
 		
 		btnBack = new JButton("Back");
 		btnBack.setBackground(SystemColor.menu);
