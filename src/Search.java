@@ -7,31 +7,45 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.List;
+import java.awt.Scrollbar;
+
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JList;
-import java.awt.List;
-import java.awt.Scrollbar;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+import javax.swing.ListSelectionModel;
+
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+
+import java.util.ArrayList;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class Search extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 	private JTextField txtSearch;
+	private ArrayList<String> objOrgFound;
+	private JList list;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
+	private ResultSet objResultSet;
 
 	public void run() {
 		try {
@@ -102,6 +116,78 @@ public class Search extends JFrame implements Runnable{
 		contentPane.add(txtSearch);
 		txtSearch.setColumns(10);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(76, 173, 237, 205);
+		contentPane.add(scrollPane);		;
+		list = new JList();
+		scrollPane.setViewportView(list);
+		
+		txtSearch.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtSearch.setText(null); // Empty the text field when it receives focus
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+	
+		txtSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+                   		 boolean boolFound = false;
+                    		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
+                   		 String strComp, strData, strorgname;
+				 objOrgFound = new ArrayList<String>();
+                    		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+
+                    		 strComp = txtSearch.getText().trim();
+           
+                    		 while (objResultSet.next()) {
+                       		   strData = objResultSet.getString("strorgname").trim();  
+                       
+                       		   if (strComp.equals(strData)) {
+					 strorgname = objResultSet.getString("strorgname");
+					 objOrgFound.add(strorgname);
+
+                           		 boolFound = true;
+                           		 break;
+                       		}  // if (strComp.equals(strData))
+                   		}  // while (objResultSet.next()) 
+                    	if (!boolFound) {
+				strorgname = "Organization not found";
+                        	objOrgFound.add(strorgname);
+                   	 }  // if (!boolFound) 
+				list = new JList(objOrgFound.toArray());
+				scrollPane.setViewportView(list);
+                	} catch (Exception objEx) {
+                    	  System.out.println("Problem retrieving information..");
+                   	  System.out.println(objEx);
+               	 }  // try
+		}  // public void actionPerformed(ActionEvent objAE)
+        	});
+		
+		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        	list.addListSelectionListener(new ListSelectionListener() {//something wrong
+			public void valueChanged(ListSelectionEvent objLE) {
+
+                	 int intIndex = list.getSelectedIndex();
+
+               		 if (intIndex != -1) {               
+                    		MainActivity.ActivityClickingAnOrg();
+				Search.this.dispose();
+				if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
+                	 }  // if (intIndex != -1)
+
+            		}  // public void valueChanged(ListSelectionEvent objLE)
+
+        	});
+
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(151, 407, 89, 23);
 		contentPane.add(btnNewButton);
@@ -110,14 +196,7 @@ public class Search extends JFrame implements Runnable{
 				MainActivity.ActivityNewsFeed();
 				Search.this.dispose();
 			}
-		});
+		});	
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(76, 173, 237, 205);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
-
 	}
 }
