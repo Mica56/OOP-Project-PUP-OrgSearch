@@ -11,22 +11,22 @@ import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class ClickingAnOrg extends JFrame {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class ClickingAnOrg extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ClickingAnOrg frame = new ClickingAnOrg();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public void run() {
+		try {
+			ClickingAnOrg frame = new ClickingAnOrg();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+
 
 	public ClickingAnOrg() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -98,6 +98,12 @@ public class ClickingAnOrg extends JFrame {
 		JButton btnBack = new JButton("Back");
 		btnBack.setBounds(146, 444, 93, 23);
 		contentPane.add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				ClickingAnOrg.this.dispose();
+			}
+		});
 		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.setBounds(247, 76, 74, 23);

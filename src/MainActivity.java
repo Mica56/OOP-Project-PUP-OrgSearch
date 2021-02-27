@@ -31,4 +31,8 @@ public class MainActivity{
 		Thread SearchGUI = new Thread(new Search());
 		SearchGUI.start();
 	}
+	public static void ActivityClickingAnOrg() {
+		Thread ClickingAnOrgGUI = new Thread(new ClickingAnOrg());
+		ClickingAnOrgGUI.start();
+	}
 }
