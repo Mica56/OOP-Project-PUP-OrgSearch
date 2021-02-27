@@ -14,6 +14,9 @@ import javax.swing.JPasswordField;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
 
 import javax.swing.ImageIcon;
 
@@ -95,7 +98,7 @@ public class Profile extends JFrame implements Runnable {
 		lblName.setBounds(46, 76, 60, 26);
 		contentPane.add(lblName);
 		
-		txtName = new JTextField();
+		txtName = new JTextField("Name");
 		txtName.setBackground(SystemColor.text);
 		txtName.setBounds(46, 99, 189, 23);
 		contentPane.add(txtName);
@@ -114,7 +117,7 @@ public class Profile extends JFrame implements Runnable {
 		lblCollege.setBounds(46, 127, 60, 26);
 		contentPane.add(lblCollege);
 		
-		txtCollege = new JTextField();
+		txtCollege = new JTextField("College");
 		txtCollege.setBackground(SystemColor.text);
 		txtCollege.setColumns(10);
 		txtCollege.setBounds(46, 150, 189, 23);
@@ -133,7 +136,7 @@ public class Profile extends JFrame implements Runnable {
 		lblStudentNumber.setBounds(46, 179, 121, 26);
 		contentPane.add(lblStudentNumber);
 		
-		txtStudNum = new JTextField();
+		txtStudNum = new JTextField("Student Number");
 		txtStudNum.setBackground(SystemColor.text);
 		txtStudNum.setColumns(10);
 		txtStudNum.setBounds(46, 202, 189, 23);
@@ -152,7 +155,7 @@ public class Profile extends JFrame implements Runnable {
 		lblEmail.setBounds(46, 232, 60, 26);
 		contentPane.add(lblEmail);
 		
-		txtEmail = new JTextField();
+		txtEmail = new JTextField("Email");
 		txtEmail.setBackground(SystemColor.text);
 		txtEmail.setColumns(10);
 		txtEmail.setBounds(46, 255, 189, 23);
@@ -178,7 +181,7 @@ public class Profile extends JFrame implements Runnable {
 		btnEdit4.setBounds(264, 308, 58, 23);
 		contentPane.add(btnEdit4);
 		
-		pwPassword = new JPasswordField();
+		pwPassword = new JPasswordField("Password");
 		pwPassword.setBackground(SystemColor.text);
 		pwPassword.setBounds(46, 308, 189, 23);
 		contentPane.add(pwPassword);
@@ -228,36 +231,75 @@ public class Profile extends JFrame implements Runnable {
 	}
 
 	public void setupListener() {
-		/*
+		txtName.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtName.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		txtCollege.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtCollege.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		txtStudNum.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtStudNum.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		txtEmail.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtEmail.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		pwPassword.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				pwPassword.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				String strName = txtName.getText().trim();
+				txtName.setText(strName);
 			}
 		});
 
 		btnEdit1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				String strCollege = txtCollege.getText().trim();
+				txtCollege.setText(strCollege);
 			}
 		});
 		
 		btnEdit2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				String strStudNum = txtStudNum.getText().trim();
+				txtStudNum.setText(strStudNum );
 			}
 		});
 
 		btnEdit3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				String strEmail = txtEmail.getText().trim();
+				txtEmail.setText(strEmail);
 			}
 		});
 		
 		btnEdit4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				String strPassword = pwPassword.getText().trim();
+				pwPassword.setText(strPassword);
 			}
-		});*/
+		});
 
 		btnCreateAnOrganization.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {

@@ -5,7 +5,7 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.SwingConstants;
-
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.DropMode;
@@ -13,23 +13,34 @@ import javax.swing.ImageIcon;
 import java.awt.Canvas;
 import javax.swing.JTextArea;
 import javax.swing.JSeparator;
+import javax.swing.JPasswordField;
 import java.awt.SystemColor;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusAdapter;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
+import java.sql.ResultSet;
 
 public class Homescreen implements Runnable {
 
 	private JFrame frmHomescreen;
 	private JTextField txtEmail;
-	private JTextField txtPassword;
+	private JPasswordField pwPassword;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
+	private ResultSet objResultSet;
 
 	public void run() {
 		try {
@@ -133,21 +144,72 @@ public class Homescreen implements Runnable {
 		frmHomescreen.getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
 		
-		txtPassword = new JTextField();
-		txtPassword.setHorizontalAlignment(SwingConstants.LEFT);
-		txtPassword.setText("  Password");
-		txtPassword.setColumns(10);
-		txtPassword.setBounds(362, 240, 226, 36);
-		frmHomescreen.getContentPane().add(txtPassword);
+		pwPassword = new JPasswordField();
+		pwPassword.setHorizontalAlignment(SwingConstants.LEFT);
+		pwPassword.setColumns(10);
+		pwPassword.setBounds(362, 240, 226, 36);
+		frmHomescreen.getContentPane().add(pwPassword);
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBackground(new Color(255, 255, 255));
 		btnLogin.setBounds(431, 338, 89, 23);
 		frmHomescreen.getContentPane().add(btnLogin);
+		
+		txtEmail.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				txtEmail.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		pwPassword.addMouseListener(new MouseAdapter() {
+           		 public void mouseClicked(MouseEvent objME) {
+				pwPassword.setText(null); 
+                		
+           	 }  // public void mouseClicked(MouseEvent objME)
+        	});
+
+		pwPassword.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent arg0) {
+				if (pwPassword.getText().equals("Password")){
+					pwPassword.setEchoChar('*');
+					pwPassword.setText("");
+				}
+				else {
+					pwPassword.selectAll();
+				}
+			}
+		});
 		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityNewsFeed();
-				frmHomescreen.dispose();
+			public void actionPerformed(ActionEvent objAE) {//need to edit
+				try {
+                    		boolean boolFound = false;
+                    		String strSQLQuery = "SELECT stremail " +
+                                                      "FROM tbluser ";
+                   		
+				String strComp, strData;
+                    		objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+
+                    		strComp = txtEmail.getText().trim();
+           
+                    		while (objResultSet.next()) {
+                        	strData = objResultSet.getString("stremail").trim();  
+                       
+                        		if (strComp.equals(strData)) {
+                            		   boolFound = true;
+					   MainActivity.ActivityNewsFeed();
+					   frmHomescreen.dispose();
+                           		 break;
+                       			 }  // if (strComp.equals(strData))
+                    		}  // while (objResultSet.next()) 
+
+                    		if (!boolFound) {
+                       			JOptionPane.showMessageDialog(null, "User email not found!");
+                    		}  // if (!boolFound) 
+                		} catch (Exception objEx) {
+                    			System.out.println("Problem retrieving information..");
+                    			System.out.println(objEx);
+               			 }  // try
 			}
 		});
 		

@@ -124,7 +124,7 @@ public class Search extends JFrame implements Runnable{
 		
 		txtSearch.addMouseListener(new MouseAdapter() {
            		 public void mouseClicked(MouseEvent objME) {
-				txtSearch.setText(null); // Empty the text field when it receives focus
+				txtSearch.setText(null); 
                 		
            	 }  // public void mouseClicked(MouseEvent objME)
         	});
@@ -173,7 +173,7 @@ public class Search extends JFrame implements Runnable{
                		 if (intIndex != -1) {               
                     		MainActivity.ActivityClickingAnOrg();
 				Search.this.dispose();
-				if (objConn != null) {
+				/*if (objConn != null) {
             
                				try {
                     			objConn.close();
@@ -181,7 +181,7 @@ public class Search extends JFrame implements Runnable{
                    			 System.out.println("Problem closing the database!");
                    			 System.out.println(objEx.toString());
                				 }  // try
-				}  // if (objConn != null)
+				}  // if (objConn != null)*/
                 	 }  // if (intIndex != -1)
 
             		}  // public void valueChanged(ListSelectionEvent objLE)
