@@ -28,7 +28,8 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private ArrayList<String> objorgs;
-	public static String selectedOrg;
+	public static String selectedLOrg;
+	public static boolean boolLeaveAnOrg = false;
 	private String struseremail;
 
 	private Connection objConn;
@@ -110,11 +111,9 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 		
 		try {
 		    struseremail = Homescreen.struseremail;
-		    //struseremail.getUserEmail();//seems like this doesn't works 
                     String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
 					 "WHERE strusercreator = '" + struseremail + "';";
-		    /*String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
-					 "WHERE strusercreator = 'micaela.cerilla@gmail.com';";*/           
+         
       		    objorgs = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
@@ -140,14 +139,15 @@ public class LeaveAnOrg extends JFrame implements Runnable {
             		public void valueChanged(ListSelectionEvent objLE) {
              
                 		int intIndex = list.getSelectedIndex();
-				selectedOrg = list.getSelectedValue().toString();
+				selectedLOrg = list.getSelectedValue().toString();
 
                 		if (intIndex != -1) {
                 
                     		MainActivity.ActivityClickingAnOrg();
 				LeaveAnOrg.this.dispose();
+				boolLeaveAnOrg = true;
          
-               			 }  // if (intIndex != -1)
+               			}  // if (intIndex != -1)
 
            		 }  // public void valueChanged(ListSelectionEvent objLE)
 
