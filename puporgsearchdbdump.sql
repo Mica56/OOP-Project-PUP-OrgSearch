@@ -51,6 +51,7 @@ CREATE TABLE `tblorgsjoin` (
   `strorgsjoined` varchar(50) DEFAULT NULL,
   `strorgscreated` varchar(50) DEFAULT NULL,
   `strusercreator` varchar(50) DEFAULT NULL
+  `strorgscreated` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -146,3 +147,4 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2021-02-28 17:51:37
+
