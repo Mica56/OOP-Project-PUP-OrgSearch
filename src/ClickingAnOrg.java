@@ -114,5 +114,6 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblOrganization.setForeground(Color.WHITE);
 		lblOrganization.setBounds(73, 76, 161, 23);
 		contentPane.add(lblOrganization);
+		//JOptionPane.showMessageDialog(null, LeaveAnOrg.selectedOrg + " is accessible.");//this is okay
 	}
 }

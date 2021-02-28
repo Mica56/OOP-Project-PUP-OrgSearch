@@ -36,6 +36,7 @@ public class Homescreen implements Runnable {
 	private JFrame frmHomescreen;
 	private JTextField txtEmail;
 	private JPasswordField pwPassword;
+	public static String struseremail;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -196,6 +197,7 @@ public class Homescreen implements Runnable {
                         	strData = objResultSet.getString("stremail").trim();  
                        
                         		if (strComp.equals(strData)) {
+					   struseremail = strData;
                             		   boolFound = true;
 					   MainActivity.ActivityNewsFeed();
 					   frmHomescreen.dispose();
@@ -263,6 +265,4 @@ public class Homescreen implements Runnable {
 		lblNewLabel_1.setBounds(0, 0, 310, 461);
 		frmHomescreen.getContentPane().add(lblNewLabel_1);
 	}
-
-
 }

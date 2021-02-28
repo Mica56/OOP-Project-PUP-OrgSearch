@@ -1,6 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -15,6 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JList;
 import javax.swing.JButton;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -24,6 +27,9 @@ import java.sql.ResultSet;
 public class LeaveAnOrg extends JFrame implements Runnable {
 
 	private JPanel contentPane;
+	private ArrayList<String> objorgs;
+	public static String selectedOrg;
+	private String struseremail;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -92,13 +98,6 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 		lblSearch.setBounds(112, 70, 99, 36);
 		contentPane.add(lblSearch);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(79, 146, 222, 212);
-		contentPane.add(scrollPane);
-		
-		JList list = new JList();
-		scrollPane.setViewportView(list);
-		
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(150, 393, 89, 23);
 		contentPane.add(btnNewButton);
@@ -108,6 +107,51 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 				LeaveAnOrg.this.dispose();
 			}
 		});
+		
+		try {
+		    struseremail = Homescreen.struseremail;
+		    //struseremail.getUserEmail();//seems like this doesn't works 
+                    String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
+					 "WHERE strusercreator = '" + struseremail + "';";
+		    /*String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
+					 "WHERE strusercreator = 'micaela.cerilla@gmail.com';";*/           
+      		    objorgs = new ArrayList<String>();
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+               		 String strorgsjoined = objResultSet.getString("strorgsjoined");              
+
+			 objorgs.add(strorgsjoined);
+           	 	}  // while (objResultSet.next())
+		   objResultSet.close();             
+       		 } catch (Exception objEx) {
+           		 System.out.println("Problem retrieving information..");
+           		 System.out.println(objEx);
+       		 }// try
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(79, 146, 222, 212);
+		contentPane.add(scrollPane);		
+		JList list = new JList(objorgs.toArray());
+		scrollPane.setViewportView(list);
+
+		list.addListSelectionListener(new ListSelectionListener() {
+
+            		public void valueChanged(ListSelectionEvent objLE) {
+             
+                		int intIndex = list.getSelectedIndex();
+				selectedOrg = list.getSelectedValue().toString();
+
+                		if (intIndex != -1) {
+                
+                    		MainActivity.ActivityClickingAnOrg();
+				LeaveAnOrg.this.dispose();
+         
+               			 }  // if (intIndex != -1)
+
+           		 }  // public void valueChanged(ListSelectionEvent objLE)
+
+        	});
 	}
 
 }
