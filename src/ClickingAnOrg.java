@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import java.awt.FlowLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -10,6 +11,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,13 +28,20 @@ import java.text.SimpleDateFormat;
 public class ClickingAnOrg extends JFrame implements Runnable{
 
 	private JPanel contentPane;
+	private JButton btnWriteAPost;
+	private JButton btnNewButton;
+	private JButton btnLeaveThisOrg;
+	private JButton btnBack;
+	private JButton btnEdit;
+	private JTextField txtWritePost;
+	private JButton btnSavePost;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
 	private ResultSet objResultSet;
 
-	public void run() {
+	public void run() {//something wrong with WriteAPost() because of this
 		try {
 			ClickingAnOrg frame = new ClickingAnOrg();
 			frame.setVisible(true);
@@ -62,6 +71,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
         if (boolConn2Db) {
             ClickingAnOrgGUI();
+	    setupListener();
         }  // if (boolConn2Db)
     }  // Search() 
 
@@ -74,8 +84,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 	
-		JButton btnWriteAPost = new JButton("Write a post");
-		btnWriteAPost.setBounds(73, 290, 248, 29);
+		btnWriteAPost = new JButton("Write a post");
+		btnWriteAPost.setBounds(130, 290, 120, 29);
 		contentPane.add(btnWriteAPost);
 		
 		JLabel lblPupOrganizationSearch = new JLabel("PUP ORGANIZATION SEARCH");
@@ -122,25 +132,19 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblNewsfeed.setBounds(73, 330, 248, 69);
 		contentPane.add(lblNewsfeed);
 		
-		JButton btnNewButton = new JButton("Join this Org");
+		btnNewButton = new JButton("Join this Org");
 		btnNewButton.setBounds(73, 410, 110, 23);
 		contentPane.add(btnNewButton);
 		
-		JButton btnLeaveThisOrg = new JButton("Leave this Org");
+		btnLeaveThisOrg = new JButton("Leave this Org");
 		btnLeaveThisOrg.setBounds(201, 410, 120, 23);
 		contentPane.add(btnLeaveThisOrg);
 		
-		JButton btnBack = new JButton("Back");
+		btnBack = new JButton("Back");
 		btnBack.setBounds(146, 444, 93, 23);
 		contentPane.add(btnBack);
-		btnBack.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityNewsFeed();
-				ClickingAnOrg.this.dispose();
-			}
-		});
 		
-		JButton btnEdit = new JButton("Edit");
+		btnEdit = new JButton("Edit");
 		btnEdit.setBounds(247, 76, 74, 23);
 		contentPane.add(btnEdit);
 		
@@ -185,7 +189,6 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                     System.out.println(objEx);
                 }  // try
 		}// if(LeaveAnOrg.boolLeaveAnOrg)
-		LeaveAnOrg.boolLeaveAnOrg = false;
 
 		if(Search.boolSearch) {
 		try {
@@ -222,6 +225,86 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                     System.out.println(objEx);
                 }  // try 
 		}// if(Search.boolSearch)
-		Search.boolSearch = false;
+	}
+
+	public void setupListener() {
+		btnWriteAPost.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				WriteAPost();
+			}
+		});
+		
+		/*btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+										
+			}
+		});*/
+
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				if(LeaveAnOrg.boolLeaveAnOrg) {
+				try {		
+		    		    String strSQLInsert = "INSERT INTO tblpending " + 
+                                              "(straccount, strorg) VALUES " + 
+                                              "('" + Homescreen.struseremail + "', '" + LeaveAnOrg.selectedLOrg + "');"; 
+            
+           			    objSQLQuery.executeUpdate(strSQLInsert);
+           			    System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			}// try
+				}// if(LeaveAnOrg.boolLeaveAnOrg)
+
+				if(Search.boolSearch) {
+				try {
+                    		    String strSQLInsert = "INSERT INTO tblpending " + 
+                                              "(straccount, strorg) VALUES " + 
+                                              "('" + Homescreen.struseremail + "', '" + Search.selectedSOrg  + "');"; 
+            
+           			    objSQLQuery.executeUpdate(strSQLInsert);
+           			    System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			}// try
+				}// if(Search.boolSearch)	
+			}
+		});
+
+		/*btnLeaveThisOrg.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				
+			}
+		});*/
+		
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeed();
+				ClickingAnOrg.this.dispose();
+				LeaveAnOrg.boolLeaveAnOrg = false;
+				Search.boolSearch = false;
+			}
+		});
+	}
+
+	public void WriteAPost() {
+		ClickingAnOrg frmWitePost = new ClickingAnOrg();
+		frmWitePost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
+   		frmWitePost.setSize(400, 200);  
+    		frmWitePost.setLayout(new FlowLayout());
+
+		txtWritePost = new JTextField(30);
+		frmWitePost.add(txtWritePost);  
+ 		
+		btnSavePost = new JButton("Save");
+		frmWitePost.add(btnSavePost);
+		JOptionPane.showInputDialog(frmWitePost,"Write a post."); 
 	}
 }
