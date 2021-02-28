@@ -137,6 +137,13 @@ public class CreateAnOrg extends JFrame implements Runnable{
                                               "('" + strorgname + "', '" + strorgtype + "', '" + strorgemail + "', '" + strorgdes + "');"; 
             
            			 objSQLQuery.executeUpdate(strSQLInsert);
+
+				strSQLInsert = "INSERT INTO tblorgsjoin " + 
+                                              "(strorgsjoined, strorgscreated, strusercreator) " + 
+                                              "VALUES " + 
+                                              "('" + strorgname + "', '" + strorgname + "', '" + Homescreen.struseremail + "');";
+
+				 objSQLQuery.executeUpdate(strSQLInsert); 
            			 System.out.println("Rows inserted on the table..");
 
        				 } catch (Exception objEx) {
