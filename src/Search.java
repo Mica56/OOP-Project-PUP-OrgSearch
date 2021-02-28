@@ -118,7 +118,7 @@ public class Search extends JFrame implements Runnable{
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(76, 173, 237, 205);
-		contentPane.add(scrollPane);		;
+		contentPane.add(scrollPane);		
 		list = new JList();
 		scrollPane.setViewportView(list);
 		
@@ -163,37 +163,31 @@ public class Search extends JFrame implements Runnable{
                	 }  // try
 		}  // public void actionPerformed(ActionEvent objAE)
         	});
-		
-		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        	list.addListSelectionListener(new ListSelectionListener() {//something wrong
-			public void valueChanged(ListSelectionEvent objLE) {
 
-                	 int intIndex = list.getSelectedIndex();
+		/*list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//something wrong here
+        	list.addListSelectionListener(new ListSelectionListener() {
 
-               		 if (intIndex != -1) {               
+            		public void valueChanged(ListSelectionEvent objLE) {
+             
+                		int intIndex = list.getSelectedIndex();
+
+                		if (intIndex != -1) {
+                
                     		MainActivity.ActivityClickingAnOrg();
 				Search.this.dispose();
-				/*if (objConn != null) {
-            
-               				try {
-                    			objConn.close();
-                			} catch (Exception objEx) {
-                   			 System.out.println("Problem closing the database!");
-                   			 System.out.println(objEx.toString());
-               				 }  // try
-				}  // if (objConn != null)*/
-                	 }  // if (intIndex != -1)
+         
+               			 }  // if (intIndex != -1)
 
-            		}  // public void valueChanged(ListSelectionEvent objLE)
+           		 }  // public void valueChanged(ListSelectionEvent objLE)
 
-        	});
+        	});*/
 
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(151, 407, 89, 23);
 		contentPane.add(btnNewButton);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				MainActivity.ActivityNewsFeed();
+				MainActivity.ActivityNewsFeed();				
 				Search.this.dispose();
 			}
 		});	
