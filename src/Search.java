@@ -47,6 +47,9 @@ public class Search extends JFrame implements Runnable{
 	private Statement objSQLQuery;
 	private ResultSet objResultSet;
 
+	public static String selectedSOrg;
+	public static boolean boolSearch = false;
+
 	public void run() {
 		try {
 			Search frame = new Search();
@@ -132,49 +135,53 @@ public class Search extends JFrame implements Runnable{
 		txtSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
-					boolean boolFound = false;
-                    String strSQLQuery = "SELECT strorgname FROM tblorg ";            
-                   	String strComp, strData, strorgname;
-                   	objOrgFound = new ArrayList<String>();
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-                    strComp = txtSearch.getText().trim();
-                    while (objResultSet.next()) {
-                   		strData = objResultSet.getString("strorgname").trim();  
-                   		if (strComp.equals(strData)) {
-                   			strorgname = objResultSet.getString("strorgname");
-                   			objOrgFound.add(strorgname);
-                       		boolFound = true;
-                       		break;
-                   		}  // if (strComp.equals(strData))
-                 	}  // while (objResultSet.next()) 
-                    if (!boolFound) {
-                    	strorgname = "Organization not found";
-                       	objOrgFound.add(strorgname);
-                   	}  // if (!boolFound) 
-                    list = new JList(objOrgFound.toArray());
-                    scrollPane.setViewportView(list);
-                    list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//something wrong here
-                    list.addListSelectionListener(new ListSelectionListener() {
-                    	public void valueChanged(ListSelectionEvent objLE) {
-                    		int intIndex = list.getSelectedIndex();
-                            if (intIndex != -1) {
-                            
-                                		MainActivity.ActivityClickingAnOrg();
-                                		Search.this.dispose();
-                     
-                           			 }  // if (intIndex != -1)
+                   		 boolean boolFound = false;
+                    		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
+                   		 String strComp, strData, strorgname;
+				 objOrgFound = new ArrayList<String>();
+                    		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
-                       		 }  // public void valueChanged(ListSelectionEvent objLE)
+                    		 strComp = txtSearch.getText().trim();
+           
+                    		 while (objResultSet.next()) {
+                       		   strData = objResultSet.getString("strorgname").trim();  
+                       
+                       		   if (strComp.equals(strData)) {
+					 strorgname = objResultSet.getString("strorgname");
+					 objOrgFound.add(strorgname);
 
-                    	});
+                           		 boolFound = true;
+                           		 break;
+                       		}  // if (strComp.equals(strData))
+                   		}  // while (objResultSet.next()) 
+                    	if (!boolFound) {
+				strorgname = "Organization not found";
+                        	objOrgFound.add(strorgname);
+                   	 }  // if (!boolFound) 
+				list = new JList(objOrgFound.toArray());
+				scrollPane.setViewportView(list);
+
+				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//something wrong here
+        			list.addListSelectionListener(new ListSelectionListener() {
+            				public void valueChanged(ListSelectionEvent objLE) {             
+                				int intIndex = list.getSelectedIndex();
+						selectedSOrg = list.getSelectedValue().toString();
+
+                				if (intIndex != -1) {               
+                    					MainActivity.ActivityClickingAnOrg();
+							Search.this.dispose();
+							boolSearch = true;
+         
+               					}  // if (intIndex != -1)
+           				 }  // public void valueChanged(ListSelectionEvent objLE)
+
+        			});
                 	} catch (Exception objEx) {
                     	  System.out.println("Problem retrieving information..");
-                    	  System.out.println(objEx);
-               	 	}  // try
-			}  // public void actionPerformed(ActionEvent objAE)
-        });
-
-		
+                   	  System.out.println(objEx);
+               	 }  // try
+		}  // public void actionPerformed(ActionEvent objAE)
+        	});
 
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(151, 407, 89, 23);
