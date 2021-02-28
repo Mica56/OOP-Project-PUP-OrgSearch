@@ -161,7 +161,7 @@ public class Search extends JFrame implements Runnable{
 				list = new JList(objOrgFound.toArray());
 				scrollPane.setViewportView(list);
 
-				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//something wrong here
+				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         			list.addListSelectionListener(new ListSelectionListener() {
             				public void valueChanged(ListSelectionEvent objLE) {             
                 				int intIndex = list.getSelectedIndex();
