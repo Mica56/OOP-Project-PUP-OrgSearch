@@ -244,6 +244,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 			}
 		});
 
+
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				if(LeaveAnOrg.boolLeaveAnOrg) {
@@ -282,11 +283,26 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 			}
 		});
 
-		/*btnLeaveThisOrg.addActionListener(new ActionListener() {
+
+		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-				
+				try {
+                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE strusercreator = '" +                                
+                                            		 Homescreen.struseremail + "';"; 
+            
+           			    objSQLQuery.executeUpdate(strSQLInsert);
+           			    System.out.println("Row deleted from the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem deleting information..");
+				 JOptionPane.showMessageDialog(null, "You're not a member yet!");
+            			 System.out.println(objEx);
+
+        			}// try
 			}
-		});*/
+		});
+
 		
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
@@ -327,6 +343,5 @@ public class ClickingAnOrg extends JFrame implements Runnable{
    			System.out.println(objEx);
 
 		}
-
 	}
 }

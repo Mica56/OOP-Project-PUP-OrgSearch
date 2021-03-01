@@ -137,6 +137,7 @@ public class Search extends JFrame implements Runnable{
 				try {
                    		 boolean boolFound = false;
                     		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
+
                    		 String strComp, strorgname;
 				 objOrgFound = new ArrayList<String>();
                     		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
@@ -163,6 +164,24 @@ public class Search extends JFrame implements Runnable{
                        			   boolFound=true;
                        			   
                        		   }
+
+                   		/* String strComp, strData, strorgname;
+				 objOrgFound = new ArrayList<String>();
+                    		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+
+                    		 strComp = txtSearch.getText().trim();
+           
+                    		 while (objResultSet.next()) {
+                       		   strData = objResultSet.getString("strorgname").trim();  
+                       
+                       		   if (strComp.equals(strData)) {
+					 strorgname = objResultSet.getString("strorgname");
+					 objOrgFound.add(strorgname);
+
+                           		 boolFound = true;
+                           		 break;
+                       		}  // if (strComp.equals(strData))*/
+
                    		}  // while (objResultSet.next()) 
                     	if (!boolFound) {
 				strorgname = "Organization not found";
