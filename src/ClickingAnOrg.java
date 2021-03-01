@@ -146,9 +146,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		
 		btnEdit = new JButton("Edit");
 		btnEdit.setBounds(247, 76, 74, 23);
-		contentPane.add(btnEdit);
-		
-		
+		contentPane.add(btnEdit);		
 		
 		JLabel lblOrganization = new JLabel("Organization #1");
 		lblOrganization.setHorizontalAlignment(SwingConstants.CENTER);
@@ -186,6 +184,16 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
 			 lblNewsfeed.setText(strheading + "\n" + strbody + "\n" + strtime);//still displays in straight line 
            	 	}  // while (objResultSet.next())
+
+		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
+                                    "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
+                    
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+			    String strimgpath = objResultSet.getString("strimgpath");
+                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+                    }  // while (objResultSet.next()) 
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
                     System.out.println(objEx);
@@ -222,6 +230,16 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
 			 lblNewsfeed.setText(strheading + "\n" + strbody + "\n" + strtime);//still displays in straight line 
            	 	}  // while (objResultSet.next())
+
+		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
+                                    "WHERE strorgname = '" + Search.selectedSOrg + "';";            
+                    
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+			    String strimgpath = objResultSet.getString("strimgpath");
+                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+                    }  // while (objResultSet.next())
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
                     System.out.println(objEx);
@@ -249,9 +267,9 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent objAE) {
 				if(LeaveAnOrg.boolLeaveAnOrg) {
 				try {		
-		    		    String strSQLInsert = "INSERT INTO tblpending " + 
-                                              "(straccount, strorg) VALUES " + 
-                                              "('" + Homescreen.struseremail + "', '" + LeaveAnOrg.selectedLOrg + "');"; 
+		    		    String strSQLInsert = "INSERT INTO tblorgsjoin " + 
+                                              "(strorgsjoined, struser) VALUES " + 
+                                              "('" + LeaveAnOrg.selectedLOrg + "', '" + Homescreen.struseremail + "');"; 
             
            			    objSQLQuery.executeUpdate(strSQLInsert);
            			    System.out.println("Rows inserted on the table..");
@@ -266,9 +284,9 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
 				if(Search.boolSearch) {
 				try {
-                    		    String strSQLInsert = "INSERT INTO tblpending " + 
-                                              "(straccount, strorg) VALUES " + 
-                                              "('" + Homescreen.struseremail + "', '" + Search.selectedSOrg  + "');"; 
+                    		    String strSQLInsert = "INSERT INTO tblorgsjoin " + 
+                                              "(strorgsjoined, struser) VALUES " + 
+                                              "('" + Search.selectedSOrg + "', '" + Homescreen.struseremail  + "');"; 
             
            			    objSQLQuery.executeUpdate(strSQLInsert);
            			    System.out.println("Rows inserted on the table..");

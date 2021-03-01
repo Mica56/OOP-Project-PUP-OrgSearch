@@ -148,7 +148,7 @@ public class NewsFeed extends JFrame implements Runnable {
 		});
 		try {
                     String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
-					 "WHERE strusercreator = '" + Homescreen.struseremail + "';";
+					 "WHERE struser = '" + Homescreen.struseremail + "';";
          
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
