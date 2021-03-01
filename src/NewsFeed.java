@@ -32,6 +32,7 @@ public class NewsFeed extends JFrame implements Runnable {
 	private JPanel contentPane;
 	private JButton btnSearch;
 	private ArrayList<String> objPosts;
+	private String strorgsjoined;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -144,11 +145,25 @@ public class NewsFeed extends JFrame implements Runnable {
 				}  // if (objConn != null)
 			}
 		});
-		
+		try {
+                    String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
+					 "WHERE strusercreator = '" + Homescreen.struseremail + "';";
+         
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+               		 strorgsjoined = objResultSet.getString("strorgsjoined");              
+           	 	}  // while (objResultSet.next())
+		   objResultSet.close();             
+       		 } catch (Exception objEx) {
+           		 System.out.println("Problem retrieving information..");
+           		 System.out.println(objEx);
+       		 }// try
+
 		try {
                     String strSQLQuery = "SELECT strheading, strbody, dtime " +
                                                       "FROM tblposts " + 
-                                                      "ORDER BY dtime";            
+                                                      "WHERE strorgname = '" + strorgsjoined + "';";            
       		    objPosts = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            

@@ -137,32 +137,22 @@ public class Search extends JFrame implements Runnable{
 				try {
                    		 boolean boolFound = false;
                     		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
-                   		 String strComp, strorgname;
+                   		 String strComp, strData, strorgname;
 				 objOrgFound = new ArrayList<String>();
                     		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
-                    		 String strComplower = (txtSearch.getText().trim()).toLowerCase();
-                    		 String strCompupper = (txtSearch.getText().trim()).toUpperCase();
+                    		 strComp = txtSearch.getText().trim();
+           
                     		 while (objResultSet.next()) {
-                    			 
-                    			 //insert data algorithm
-                    			 //algorithm
-                    			 //1. set txtfield to uppercase
-                    			 //2. set txtfield to lowercase
-                    			 //3. set dborgname to uppercase
-                    			 //4. set dborgname to lowercase
-                    			 //5. compare uppercases
-                    			 //6. compare lowercases
-                    			 
-                       		   String strDatalower = (objResultSet.getString("strorgname").trim()).toLowerCase();
-                       		   String strDataupper = (objResultSet.getString("strorgname").trim()).toUpperCase();
-                       		   
-                       		   if(strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper)) {
-                       			   strorgname = objResultSet.getString("strorgname");
-                       			   objOrgFound.add(strorgname);
-                       			   boolFound=true;
-                       			   
-                       		   }
+                       		   strData = objResultSet.getString("strorgname").trim();  
+                       
+                       		   if (strComp.equals(strData)) {
+					 strorgname = objResultSet.getString("strorgname");
+					 objOrgFound.add(strorgname);
+
+                           		 boolFound = true;
+                           		 break;
+                       		}  // if (strComp.equals(strData))
                    		}  // while (objResultSet.next()) 
                     	if (!boolFound) {
 				strorgname = "Organization not found";
