@@ -192,7 +192,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
            
                     while (objResultSet.next()) {
 			    String strimgpath = objResultSet.getString("strimgpath");
-                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+			    System.out.println(strimgpath);
+                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));                     
                     }  // while (objResultSet.next()) 
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
@@ -238,7 +239,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
            
                     while (objResultSet.next()) {
 			    String strimgpath = objResultSet.getString("strimgpath");
-                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+			    System.out.println(strimgpath);
+                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));
                     }  // while (objResultSet.next())
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
