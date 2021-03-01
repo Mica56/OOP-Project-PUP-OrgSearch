@@ -147,6 +147,7 @@ public class Homescreen implements Runnable {
 		
 		pwPassword = new JPasswordField();
 		pwPassword.setHorizontalAlignment(SwingConstants.LEFT);
+		pwPassword.setText(" Password");
 		pwPassword.setColumns(10);
 		pwPassword.setBounds(362, 240, 226, 36);
 		frmHomescreen.getContentPane().add(pwPassword);
@@ -185,10 +186,9 @@ public class Homescreen implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {//need to edit
 				try {
                     		boolean boolFound = false;
-                    		String strSQLQuery = "SELECT stremail " +
-                                                      "FROM tbluser ";
+                    		String strSQLQuery = "SELECT *FROM tbluser ";
                    		
-				String strComp, strData;
+                    		String strComp, strData;
                     		objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
                     		strComp = txtEmail.getText().trim();
@@ -197,11 +197,17 @@ public class Homescreen implements Runnable {
                         	strData = objResultSet.getString("stremail").trim();  
                        
                         		if (strComp.equals(strData)) {
-					   struseremail = strData;
-                            		   boolFound = true;
-					   MainActivity.ActivityNewsFeed();
-					   frmHomescreen.dispose();
-                           		 break;
+                        				String strpass = pwPassword.getText();
+                        				String dbpass = objResultSet.getString("strpass").trim();
+                        				if (strpass.contentEquals(dbpass)) {
+                        					struseremail = strData;
+                            				boolFound = true;
+                            				MainActivity.ActivityNewsFeed();
+                            				frmHomescreen.dispose();
+                        				}
+                        				else {
+                        					JOptionPane.showMessageDialog(null, "Wrong email or password","info",JOptionPane.ERROR_MESSAGE);
+                        				}
                        			 }  // if (strComp.equals(strData))
                     		}  // while (objResultSet.next()) 
 
