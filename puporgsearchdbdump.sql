@@ -16,6 +16,30 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `tblimg`
+--
+
+DROP TABLE IF EXISTS `tblimg`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tblimg` (
+  `strorgname` varchar(50) NOT NULL,
+  `strimgpath` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`strorgname`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tblimg`
+--
+
+LOCK TABLES `tblimg` WRITE;
+/*!40000 ALTER TABLE `tblimg` DISABLE KEYS */;
+INSERT INTO `tblimg` VALUES ('PUP Sintang Pusa','\"C:UsersmikayOneDriveDocumentsJava Filessrcimagecatto.jpg\"');
+/*!40000 ALTER TABLE `tblimg` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `tblorg`
 --
 
@@ -23,10 +47,11 @@ DROP TABLE IF EXISTS `tblorg`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tblorg` (
-  `strorgname` varchar(50) DEFAULT NULL,
+  `strorgname` varchar(50) NOT NULL,
   `strorgtype` varchar(50) DEFAULT NULL,
   `strorgemail` varchar(50) DEFAULT NULL,
-  `strorgdes` varchar(500) DEFAULT NULL
+  `strorgdes` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`strorgname`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -36,7 +61,7 @@ CREATE TABLE `tblorg` (
 
 LOCK TABLES `tblorg` WRITE;
 /*!40000 ALTER TABLE `tblorg` DISABLE KEYS */;
-INSERT INTO `tblorg` VALUES ('PUP-TPG','Non-Academic','puptpg@gmail.com','An org that aims to develop the programming skills of students.'),('ASCII','Academic','ascii@gmail.com','An academic organization that aims to aid CS students.');
+INSERT INTO `tblorg` VALUES ('ASCII','Academic','ascii@gmail.com','An academic organization that aims to aid CS students.'),('PUP Sintang Pusa','Non-academic','pupsintangpusa@gmail.com','We exist for the cats. Let us all love cats<3'),('PUP-TPG','Non-Academic','puptpg@gmail.com','An org that aims to develop the programming skills of students.');
 /*!40000 ALTER TABLE `tblorg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,8 +74,8 @@ DROP TABLE IF EXISTS `tblorgsjoin`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tblorgsjoin` (
   `strorgsjoined` varchar(50) DEFAULT NULL,
-  `strorgscreated` varchar(50) DEFAULT NULL,
-  `strusercreator` varchar(50) DEFAULT NULL
+  `blcreator` tinyint(1) DEFAULT NULL,
+  `struser` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -60,30 +85,8 @@ CREATE TABLE `tblorgsjoin` (
 
 LOCK TABLES `tblorgsjoin` WRITE;
 /*!40000 ALTER TABLE `tblorgsjoin` DISABLE KEYS */;
-INSERT INTO `tblorgsjoin` VALUES ('PUP-TPG','PUP-TPG','micaela.cerilla@gmail.com'),('ASCII','ASCII','michael.tayoto@gmail.com');
+INSERT INTO `tblorgsjoin` VALUES ('ASCII',1,'michael.tayoto@gmail.com'),('PUP-TPG',1,'micaela.cerilla@gmail.com'),('PUP-TPG',NULL,'michael.tayoto@gmail.com'),('PUP Sintang Pusa',1,'megumichan@gmail.com');
 /*!40000 ALTER TABLE `tblorgsjoin` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `tblpending`
---
-
-DROP TABLE IF EXISTS `tblpending`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tblpending` (
-  `straccount` varchar(50) DEFAULT NULL,
-  `strorg` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tblpending`
---
-
-LOCK TABLES `tblpending` WRITE;
-/*!40000 ALTER TABLE `tblpending` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tblpending` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -122,8 +125,9 @@ CREATE TABLE `tbluser` (
   `strname` varchar(50) DEFAULT NULL,
   `strcollege` varchar(50) DEFAULT NULL,
   `strstudnum` varchar(50) DEFAULT NULL,
-  `stremail` varchar(50) DEFAULT NULL,
-  `strpass` varchar(50) DEFAULT NULL
+  `stremail` varchar(50) NOT NULL,
+  `strpass` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`stremail`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -133,7 +137,7 @@ CREATE TABLE `tbluser` (
 
 LOCK TABLES `tbluser` WRITE;
 /*!40000 ALTER TABLE `tbluser` DISABLE KEYS */;
-INSERT INTO `tbluser` VALUES ('Micaela Cerilla','CCIS','2019-06342-MN-0','micaela.cerilla@gmail.com','whatever'),('Michael Tayoto','CCIS','2019-06343-MN-1','michael.tayoto@gmail.com','eyy');
+INSERT INTO `tbluser` VALUES ('Megumi Tanegre','CHSS','2018-02673-MN-0','megumichan@gmail.com','kekeke'),('Micaela Cerilla','CCIS','2019-06342-MN-0','micaela.cerilla@gmail.com','whatever'),('Michael Tayoto','CCIS','2019-06343-MN-1','michael.tayoto@gmail.com','eyy');
 /*!40000 ALTER TABLE `tbluser` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -146,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-02-28 21:55:02
+-- Dump completed on 2021-03-01 21:48:58
