@@ -338,9 +338,10 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
 		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
+				if(LeaveAnOrg.boolLeaveAnOrg) {
 				try {
                     		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE struser = '" +                                
-                                            		 Homescreen.struseremail + "';"; 
+                                            		 Homescreen.struseremail + "' AND strorgsjoined = '" + LeaveAnOrg.selectedLOrg + "';"; 
             
            			    objSQLQuery.executeUpdate(strSQLInsert);
            			    System.out.println("Row deleted from the table..");
@@ -352,6 +353,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
             			 System.out.println(objEx);
 
         			}// try
+				}// if(LeaveAnOrg.boolLeaveAnOrg)
 			}
 		});
 
