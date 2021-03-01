@@ -164,7 +164,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
            			 System.out.println("Problem adding information..");
             			System.out.println(objEx);
 
-        			} finally {
+        			} /*finally {
 
             			if (objConn != null) {
             
@@ -176,7 +176,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
                				 }  // try
 				}  // if (objConn != null)
 
-       				 }  // try
+       				 }  // try*/
 				MainActivity.ActivityProfile();
 				CreateAnOrg.this.dispose();				
 			}

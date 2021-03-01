@@ -32,7 +32,7 @@ public class NewsFeed extends JFrame implements Runnable {
 	private JPanel contentPane;
 	private JButton btnSearch;
 	private ArrayList<String> objPosts;
-	private String strorgsjoined;
+	private ArrayList<String> objorgsjoined;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -135,7 +135,7 @@ public class NewsFeed extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				NewsFeed.this.dispose();
-				if (objConn != null) {
+				/*if (objConn != null) {
             
                				try {
                     			objConn.close();
@@ -143,17 +143,21 @@ public class NewsFeed extends JFrame implements Runnable {
                    			 System.out.println("Problem closing the database!");
                    			 System.out.println(objEx.toString());
                				 }  // try
-				}  // if (objConn != null)
+				}  // if (objConn != null)*/
 			}
 		});
+
 		try {
                     String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
 					 "WHERE struser = '" + Homescreen.struseremail + "';";
          
+		    objorgsjoined = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
                     while (objResultSet.next()) {
-               		 strorgsjoined = objResultSet.getString("strorgsjoined");              
+               		 String strorgsjoined = objResultSet.getString("strorgsjoined");
+			
+			 objorgsjoined.add(strorgsjoined);              
            	 	}  // while (objResultSet.next())
 		   objResultSet.close();             
        		 } catch (Exception objEx) {
@@ -161,16 +165,18 @@ public class NewsFeed extends JFrame implements Runnable {
            		 System.out.println(objEx);
        		 }// try
 
+		int count = 0;
+		objPosts = new ArrayList<String>(); 		
+      		while (objorgsjoined.size() > count) {
 		try {
+		    String strorgsjoined = objorgsjoined.get(count);
                     String strSQLQuery = "SELECT strheading, strbody, dtime " +
                                                       "FROM tblposts " + 
                                                       "WHERE strorgname = '" + strorgsjoined + "';";            
 
-      		    objPosts = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-           
-                    while (objResultSet.next()) {
 
+		    while (objResultSet.next()) {
                		 String strheading = objResultSet.getString("strheading");
                 	 String strbody = objResultSet.getString("strbody");
                 	 Timestamp dtime = objResultSet.getTimestamp("dtime");
@@ -181,15 +187,17 @@ public class NewsFeed extends JFrame implements Runnable {
 			 objPosts.add(strheading);
 			 objPosts.add(strbody);
 			 objPosts.add(strtime);
-
-           	 	}  // while (objResultSet.next())
-		   objResultSet.close();             
+		   }  // while (objResultSet.next())
+		   objResultSet.close();
+		                 
        		 } catch (Exception objEx) {
 
            		 System.out.println("Problem retrieving information..");
            		 System.out.println(objEx);
 
        		 }// try
+		 count++;
+		}// while (objorgsjoined.size() > count)
 		
 		//PRINT NEWS FEED HERE FROM DATABASE
 		JScrollPane scrollPane = new JScrollPane();
