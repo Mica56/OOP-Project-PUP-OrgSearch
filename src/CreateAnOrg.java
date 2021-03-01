@@ -129,7 +129,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		btnDone.setBackground(SystemColor.menu);
 		btnDone.setBounds(194, 377, 89, 30);
 		contentPane.add(btnDone);
-		btnDone.addActionListener(new ActionListener() {//lacks insert to tblimage
+		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
 				String strorgname = txtNameOfOrganization.getText().trim();
@@ -154,7 +154,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
 				strSQLInsert = "INSERT INTO tblimg " + 
                                               "(strorgname, strimgpath) " + 
                                               "VALUES " + 
-                                              "('" + strorgname + "', '\"" + strimgpath + "\"');";
+                                              "('" + strorgname + "', '" + strimgpath + "');";
 
 				 objSQLQuery.executeUpdate(strSQLInsert);  
            			 System.out.println("Rows inserted on the table..");
