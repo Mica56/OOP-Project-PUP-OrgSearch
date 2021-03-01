@@ -225,7 +225,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
            
                     while (objResultSet.next()) {
 			    String strimgpath = objResultSet.getString("strimgpath");
-                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+			    System.out.println(strimgpath);
+                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));                     
                     }  // while (objResultSet.next()) 
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
@@ -270,7 +271,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
            
                     while (objResultSet.next()) {
 			    String strimgpath = objResultSet.getString("strimgpath");
-                            lblOrgLogo.setIcon(new ImageIcon(strimgpath));                       
+			    System.out.println(strimgpath);
+                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));
                     }  // while (objResultSet.next())
                 } catch (Exception objEx) {
                     System.out.println("Problem retrieving information..");
@@ -342,9 +344,10 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
 		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
+				if(LeaveAnOrg.boolLeaveAnOrg) {
 				try {
-                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE strusercreator = '" +                                
-                                            		 Homescreen.struseremail + "';"; 
+                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE struser = '" +                                
+                                            		 Homescreen.struseremail + "' AND strorgsjoined = '" + LeaveAnOrg.selectedLOrg + "';"; 
             
            			    objSQLQuery.executeUpdate(strSQLInsert);
            			    System.out.println("Row deleted from the table..");
@@ -356,6 +359,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
             			 System.out.println(objEx);
 
         			}// try
+				}// if(LeaveAnOrg.boolLeaveAnOrg)
 			}
 		});
 
