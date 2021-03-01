@@ -1,6 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -31,6 +31,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
 	private JButton btnBack;
 	private JLabel lblSearch;
 	private JLabel lblNewLabel;
+	private String strimgpath;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -118,7 +119,12 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		btnUploadOrgPhoto.setBackground(SystemColor.menu);
 		btnUploadOrgPhoto.setBounds(64, 312, 254, 31);
 		contentPane.add(btnUploadOrgPhoto);
-		
+		btnUploadOrgPhoto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				JFrame f = new JFrame("Upload Organization Photo");
+				strimgpath = JOptionPane.showInputDialog(f,"Enter image path");  
+			}
+		});
 		btnDone = new JButton("Done");
 		btnDone.setBackground(SystemColor.menu);
 		btnDone.setBounds(194, 377, 89, 30);
@@ -139,11 +145,18 @@ public class CreateAnOrg extends JFrame implements Runnable{
            			 objSQLQuery.executeUpdate(strSQLInsert);
 
 				strSQLInsert = "INSERT INTO tblorgsjoin " + 
-                                              "(strorgsjoined, strorgscreated, strusercreator) " + 
+                                              "(strorgsjoined, blcreator, struser) " + 
                                               "VALUES " + 
-                                              "('" + strorgname + "', '" + strorgname + "', '" + Homescreen.struseremail + "');";
+                                              "('" + strorgname + "', 1, '" + Homescreen.struseremail + "');";
 
-				 objSQLQuery.executeUpdate(strSQLInsert); 
+				 objSQLQuery.executeUpdate(strSQLInsert);
+
+				strSQLInsert = "INSERT INTO tblimg " + 
+                                              "(strorgname, strimgpath) " + 
+                                              "VALUES " + 
+                                              "('" + strorgname + "', '\"" + strimgpath + "\"');";
+
+				 objSQLQuery.executeUpdate(strSQLInsert);  
            			 System.out.println("Rows inserted on the table..");
 
        				 } catch (Exception objEx) {

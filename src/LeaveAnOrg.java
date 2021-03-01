@@ -112,7 +112,7 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 		try {
 		    struseremail = Homescreen.struseremail;
                     String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
-					 "WHERE strusercreator = '" + struseremail + "';";
+					 "WHERE struser = '" + struseremail + "';";
          
       		    objorgs = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
