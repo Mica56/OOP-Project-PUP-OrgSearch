@@ -51,7 +51,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 	}
 
 	ClickingAnOrg() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -71,7 +71,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 
         if (boolConn2Db) {
             ClickingAnOrgGUI();
-	    setupListener();
+            setupListener();
         }  // if (boolConn2Db)
     }  // Search() 
 
@@ -108,7 +108,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblNewLabel.setBounds(160, 111, 161, 23);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNumOfMembers = new JLabel(" Num Of Members:");
+		JLabel lblNumOfMembers = new JLabel("Num Of Members:");
 		lblNumOfMembers.setForeground(new Color(255, 255, 255));
 		lblNumOfMembers.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumOfMembers.setBounds(73, 210, 130, 50);
@@ -126,7 +126,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblEmail.setBounds(73, 261, 248, 23);
 		contentPane.add(lblEmail);
 		
-		JLabel lblNewsfeed = new JLabel("NEWS FEED");
+		JLabel lblNewsfeed = new JLabel("NEWS FEED");//CHANGE MENU
 		lblNewsfeed.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewsfeed.setForeground(Color.WHITE);
 		lblNewsfeed.setBounds(73, 330, 248, 69);
@@ -166,7 +166,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                             lblOrganization.setText(objResultSet.getString("strorgname"));
                             lblNewLabel.setText(objResultSet.getString("strorgtype"));
                             lblEmail.setText(objResultSet.getString("strorgemail"));
-			    lblDescription.setText(objResultSet.getString("strorgdes"));                       
+                            lblDescription.setText(objResultSet.getString("strorgdes"));                       
                     }  // while (objResultSet.next()) 
 		
 		    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
@@ -202,10 +202,10 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                             lblOrganization.setText(objResultSet.getString("strorgname"));
                             lblNewLabel.setText(objResultSet.getString("strorgtype"));
                             lblEmail.setText(objResultSet.getString("strorgemail"));
-			    lblDescription.setText(objResultSet.getString("strorgdes"));                       
+                            lblDescription.setText(objResultSet.getString("strorgdes"));                       
                     }  // while (objResultSet.next()) 
 		
-		    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
+                    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
                                    "FROM tblposts WHERE strorgname = '" + Search.selectedSOrg + "';"; 
 
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
@@ -215,8 +215,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                		 String strheading = objResultSet.getString("strheading");
                 	 String strbody = objResultSet.getString("strbody");
                 	 Timestamp dtime = objResultSet.getTimestamp("dtime");
-			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-			 String strtime = sdf.format(dtime);                  
+                	 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
+                	 String strtime = sdf.format(dtime);                  
 
 			 lblNewsfeed.setText(strheading + "\n" + strbody + "\n" + strtime);//still displays in straight line 
            	 	}  // while (objResultSet.next())
@@ -305,6 +305,39 @@ public class ClickingAnOrg extends JFrame implements Runnable{
  		
 		btnSavePost = new JButton("Save");
 		frmWitePost.add(btnSavePost);
-		JOptionPane.showInputDialog(frmWitePost,"Write a post."); 
+		String strPostTitle = JOptionPane.showInputDialog(frmWitePost,"Enter Title:");
+		String strPostBody = JOptionPane.showInputDialog(null,"Write Body:");
+		System.out.println(strPostTitle+"|"+strPostBody);
+		try {
+			String insertPostStatement = "INSERT INTO tblposts (strheading,strbody,dtime,strorgname) VALUES " + "('"+strPostTitle+"','"+strPostBody+"',"+"NOW()"+",'"+Search.selectedSOrg+"');";  
+			objSQLQuery.executeUpdate(insertPostStatement);
+			System.out.println("Successfully added post to the table");
+			/*
+			 * 			String strSQLInsert = "INSERT INTO " + strdbName + "(StudentName, HSGradeAverage, PUPCETScore, StudentNumber, Password) " +	"VALUES " + "('"+Name+"', "+Average+", "+Score+", '"+StudentNumber+"', '"+Password+"')";		
+						Statement objSQLQuery = objConn.createStatement();
+						objSQLQuery.executeUpdate(strSQLInsert);
+			 */
+		}catch (Exception objEx) {
+
+  			System.out.println("Problem adding posts information..");
+   			System.out.println(objEx);
+
+		}
+		/*
+		 * 		    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
+                                   "FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
+
+                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+           
+                    while (objResultSet.next()) {
+
+               		 String strheading = objResultSet.getString("strheading");
+                	 String strbody = objResultSet.getString("strbody");
+                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
+			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
+			 String strtime = sdf.format(dtime);  
+			 
+			 
+		 */
 	}
 }
