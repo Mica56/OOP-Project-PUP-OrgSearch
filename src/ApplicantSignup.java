@@ -12,8 +12,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ApplicantSignup extends JFrame {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class ApplicantSignup extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JTextField txtFullName;
@@ -22,20 +28,44 @@ public class ApplicantSignup extends JFrame {
 	private JTextField txtEmail;
 	private JTextField txtPassword;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ApplicantSignup frame = new ApplicantSignup();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Connection objConn;
+	private boolean boolConn2Db;
+	private Statement objSQLQuery;
 
-	public ApplicantSignup() {
+	public void run() {
+		try {
+			ApplicantSignup frame = new ApplicantSignup();
+			frame.setVisible(true);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	ApplicantSignup() {
+	String strDriver = "com.mysql.cj.jdbc.Driver";
+        String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
+        String strUser = "linus";
+        String strPass = "password123";
+
+        boolConn2Db = false;
+
+        try {        
+            Class.forName(strDriver);
+            objConn = DriverManager.getConnection(strConn, strUser, strPass);   
+            objSQLQuery = objConn.createStatement(); 
+             
+            boolConn2Db = true;
+        } catch (Exception objEx) {
+            System.out.println("Problem retrieving information..");
+            System.out.println(objEx);
+        }  // try
+
+        if (boolConn2Db) {
+            ApplicantSignupGUI();
+        }  // if (boolConn2Db)
+    }  // ApplicantSignup()   
+ 
+	public void ApplicantSignupGUI() {
 		setTitle("Sign Up for Applicant");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
@@ -103,5 +133,44 @@ public class ApplicantSignup extends JFrame {
 		btnFinish.setBackground(SystemColor.text);
 		btnFinish.setBounds(148, 381, 89, 28);
 		contentPane.add(btnFinish);
+		btnFinish.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+				String strname = txtFullName.getText().trim();
+                    		String strcollege = txtCollege.getText().trim();
+                    		String strstudnum = txtStudentNumber.getText().trim();
+                  		String stremail = txtEmail.getText().trim();
+				String strpass = txtPassword.getText().trim();  
+
+				String strSQLInsert = "INSERT INTO tbluser " + 
+                                              "(strname, strcollege, strstudnum, stremail, strpass) " + 
+                                              "VALUES " + 
+                                              "('" + strname + "', '" + strcollege + "', '" + strstudnum + "', '" + stremail + "', '" + strpass + "');"; 
+            
+           			 objSQLQuery.executeUpdate(strSQLInsert);
+           			 System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			} finally {
+
+            			if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
+
+       				 }  // try
+				MainActivity.ActivityMain();
+				ApplicantSignup.this.dispose();
+			}
+		});
 	}
 }

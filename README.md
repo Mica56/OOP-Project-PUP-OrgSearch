@@ -12,7 +12,8 @@
 | git add                                      | "Stage" or choose the changes what would be applied to the repository.|
 | git commit                                   |  Further Prepares the changes to be submitted.                        |    
 | git push -u origin {YourName}-Branch         | Finally, apply all the changes                                        |           
-
+| git pull                                     | Fetch and download content from a remote repository and immediately   |
+|                                              |   update the local repository to match that content.                  |
 
 | Options                             | Option's Use and Explanation                                                     |
 |-------------------------------------|----------------------------------------------------------------------------------|

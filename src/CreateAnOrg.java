@@ -12,8 +12,14 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class CreateAnOrg extends JFrame {
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
+public class CreateAnOrg extends JFrame implements Runnable{
 
 	private JPanel contentPane;
 	private JTextField txtNameOfOrganization;
@@ -26,20 +32,44 @@ public class CreateAnOrg extends JFrame {
 	private JLabel lblSearch;
 	private JLabel lblNewLabel;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateAnOrg frame = new CreateAnOrg();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private Connection objConn;
+	private boolean boolConn2Db;
+	private Statement objSQLQuery;
+
+	public void run() {
+		try {
+			CreateAnOrg frame = new CreateAnOrg();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	public CreateAnOrg() {
+	CreateAnOrg() {
+	String strDriver = "com.mysql.cj.jdbc.Driver";
+        String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
+        String strUser = "linus";
+        String strPass = "password123";
+
+        boolConn2Db = false;
+
+        try {        
+            Class.forName(strDriver);
+            objConn = DriverManager.getConnection(strConn, strUser, strPass);   
+            objSQLQuery = objConn.createStatement(); 
+             
+            boolConn2Db = true;
+        } catch (Exception objEx) {
+            System.out.println("Problem retrieving information..");
+            System.out.println(objEx);
+        }  // try
+
+        if (boolConn2Db) {
+            CreateAnOrgGUI();
+        }  // if (boolConn2Db)
+    }  // CreateAnOrg()   
+
+	public void CreateAnOrgGUI() {
 		setTitle("Create an Organization");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
@@ -93,11 +123,62 @@ public class CreateAnOrg extends JFrame {
 		btnDone.setBackground(SystemColor.menu);
 		btnDone.setBounds(194, 377, 89, 30);
 		contentPane.add(btnDone);
+		btnDone.addActionListener(new ActionListener() {//lacks insert to tblimage
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+				String strorgname = txtNameOfOrganization.getText().trim();
+                    		String strorgtype = txtTypeOfOrganization.getText().trim();
+                    		String strorgemail = txtOrganizationEmail.getText().trim();
+                  		String strorgdes = txtDescription.getText().trim();
+
+				String strSQLInsert = "INSERT INTO tblorg " + 
+                                              "(strorgname, strorgtype, strorgemail, strorgdes) " + 
+                                              "VALUES " + 
+                                              "('" + strorgname + "', '" + strorgtype + "', '" + strorgemail + "', '" + strorgdes + "');"; 
+            
+           			 objSQLQuery.executeUpdate(strSQLInsert);
+
+				strSQLInsert = "INSERT INTO tblorgsjoin " + 
+                                              "(strorgsjoined, strorgscreated, strusercreator) " + 
+                                              "VALUES " + 
+                                              "('" + strorgname + "', '" + strorgname + "', '" + Homescreen.struseremail + "');";
+
+				 objSQLQuery.executeUpdate(strSQLInsert); 
+           			 System.out.println("Rows inserted on the table..");
+
+       				 } catch (Exception objEx) {
+
+           			 System.out.println("Problem adding information..");
+            			System.out.println(objEx);
+
+        			} finally {
+
+            			if (objConn != null) {
+            
+               				try {
+                    			objConn.close();
+                			} catch (Exception objEx) {
+                   			 System.out.println("Problem closing the database!");
+                   			 System.out.println(objEx.toString());
+               				 }  // try
+				}  // if (objConn != null)
+
+       				 }  // try
+				MainActivity.ActivityProfile();
+				CreateAnOrg.this.dispose();				
+			}
+		});
 		
 		btnBack = new JButton("Back");
 		btnBack.setBackground(SystemColor.menu);
 		btnBack.setBounds(95, 377, 89, 30);
 		contentPane.add(btnBack);
+		btnBack.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityProfile();
+				CreateAnOrg.this.dispose();
+			}
+		});
 		
 		lblSearch = new JLabel("SEARCH");
 		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
