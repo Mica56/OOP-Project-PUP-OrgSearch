@@ -136,11 +136,11 @@ public class Search extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent objAE) {
 				try {
                    		 boolean boolFound = false;
-                    		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
+                   		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
 
                    		 String strComp, strorgname;
-				 objOrgFound = new ArrayList<String>();
-                    		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+                   		 objOrgFound = new ArrayList<String>();
+                    	 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
                     		 String strComplower = (txtSearch.getText().trim()).toLowerCase();
                     		 String strCompupper = (txtSearch.getText().trim()).toUpperCase();

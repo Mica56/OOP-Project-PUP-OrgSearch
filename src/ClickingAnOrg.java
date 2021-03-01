@@ -20,6 +20,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 
 import java.text.DateFormat;
@@ -40,6 +41,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
 	private ResultSet objResultSet;
+	private String strSQLQuery;
 
 	public void run() {//something wrong with WriteAPost() because of this
 		try {
@@ -108,7 +110,39 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblNewLabel.setBounds(160, 111, 161, 23);
 		contentPane.add(lblNewLabel);
 		
-		JLabel lblNumOfMembers = new JLabel("Num Of Members:");
+		//insert counting here
+		/* String strSQLQuery = "SELECT strorgname FROM tblorg ";   
+		 * objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+		 *  while (objResultSet.next()) {
+                    			 
+                       		   String strDatalower = (objResultSet.getString("strorgname").trim()).toLowerCase();
+                       		   String strDataupper = (objResultSet.getString("strorgname").trim()).toUpperCase();
+                       		   
+                       		   if(strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper)) {
+                       			   strorgname = objResultSet.getString("strorgname");
+                       			   objOrgFound.add(strorgname);
+                       			   boolFound=true;
+                       			   
+                       		   }
+		 */
+		int intmembercount=0;
+		System.out.println("CAN: "+Search.selectedSOrg);
+		try {
+			strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin ";
+			objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+			while (objResultSet.next()) {
+				String strorgname=objResultSet.getString("strorgsjoined").trim();
+				System.out.println(strorgname);
+				if(strorgname.contentEquals(Search.selectedSOrg)) {
+					intmembercount++;
+					System.out.println("Numbers: "+intmembercount);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		JLabel lblNumOfMembers = new JLabel("Num Of Members: "+intmembercount);
 		lblNumOfMembers.setForeground(new Color(255, 255, 255));
 		lblNumOfMembers.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNumOfMembers.setBounds(73, 210, 130, 50);
@@ -156,7 +190,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		
 		if(LeaveAnOrg.boolLeaveAnOrg) {
 		try {
-                    String strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
+                    strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
                                                       "FROM tblorg " + 
                                                       "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
                     
@@ -169,7 +203,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                             lblDescription.setText(objResultSet.getString("strorgdes"));                       
                     }  // while (objResultSet.next()) 
 		
-		    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
+                    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
                                    "FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
 
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
