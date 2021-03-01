@@ -305,7 +305,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
-                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE strusercreator = '" +                                
+                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE struser = '" +                                
                                             		 Homescreen.struseremail + "';"; 
             
            			    objSQLQuery.executeUpdate(strSQLInsert);
