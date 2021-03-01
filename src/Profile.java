@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Profile extends JFrame implements Runnable {
 
@@ -31,7 +32,7 @@ public class Profile extends JFrame implements Runnable {
 	private JTextField txtName;
 	private JTextField txtCollege;
 	private JTextField txtStudNum;
-	private JTextField txtEmail;
+	private JLabel txtEmail;
 	private JPasswordField pwPassword;
 	
 	private JButton btnEdit;
@@ -47,6 +48,12 @@ public class Profile extends JFrame implements Runnable {
 	private boolean boolConn2Db;
 	private Statement objSQLQuery;
 	private ResultSet objResultSet;
+	
+	private String dbname = null;
+	private String dbcollege = null;
+	private String dbstudnum = null;
+	private String dbemail = null;
+	private String dbpass = null;
 
 	public void run() {
 		try {
@@ -83,6 +90,28 @@ public class Profile extends JFrame implements Runnable {
     }  // Profile() 
 
 	public void ProfileGUI() {
+		System.out.println("homescreen: "+Homescreen.struseremail);
+		try {
+			String strSQLQuery = "SELECT *FROM tbluser;";// 
+			objResultSet = objSQLQuery.executeQuery(strSQLQuery);//
+			while (objResultSet.next()) {
+				dbemail = (objResultSet.getString("stremail").trim()); 
+				System.out.println("db: "+dbemail);
+				if(dbemail.contentEquals(Homescreen.struseremail)) {
+					System.out.println("true");
+					dbname = (objResultSet.getString("strname").trim());
+					dbcollege = (objResultSet.getString("strcollege").trim());
+					dbstudnum = (objResultSet.getString("strstudnum").trim());
+					dbemail = (objResultSet.getString("stremail").trim());
+					dbpass = (objResultSet.getString("strpass").trim());
+					break;
+				}		
+			}
+		} catch (SQLException e) {
+			System.out.println("Problem adding information..");
+			e.printStackTrace();
+		}
+		System.out.println(dbname+" "+dbcollege+" "+dbstudnum+" "+dbemail+" "+dbpass);
 		setTitle("Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
@@ -92,32 +121,32 @@ public class Profile extends JFrame implements Runnable {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblName = new JLabel("Name:");
+		JLabel lblName = new JLabel("Name: "+dbname);
 		lblName.setForeground(new Color(255, 255, 255));
-		lblName.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblName.setBounds(46, 76, 60, 26);
+		lblName.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblName.setBounds(46, 76, 160, 26);
 		contentPane.add(lblName);
 		
-		txtName = new JTextField("Name");
+		txtName = new JTextField("Name: "+dbname);
 		txtName.setBackground(SystemColor.text);
 		txtName.setBounds(46, 99, 189, 23);
 		contentPane.add(txtName);
 		txtName.setColumns(10);
 		
 		btnEdit = new JButton("Edit");
-		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		btnEdit.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnEdit.setForeground(SystemColor.windowText);
 		btnEdit.setBackground(SystemColor.text);
 		btnEdit.setBounds(264, 99, 58, 23);
 		contentPane.add(btnEdit);
 		
-		JLabel lblCollege = new JLabel("College:");
+		JLabel lblCollege = new JLabel("College: "+dbcollege);
 		lblCollege.setForeground(new Color(255, 255, 255));
-		lblCollege.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblCollege.setBounds(46, 127, 60, 26);
+		lblCollege.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblCollege.setBounds(46, 127, 160, 26);
 		contentPane.add(lblCollege);
 		
-		txtCollege = new JTextField("College");
+		txtCollege = new JTextField("College: "+dbcollege);
 		txtCollege.setBackground(SystemColor.text);
 		txtCollege.setColumns(10);
 		txtCollege.setBounds(46, 150, 189, 23);
@@ -130,13 +159,13 @@ public class Profile extends JFrame implements Runnable {
 		btnEdit1.setBounds(264, 150, 58, 23);
 		contentPane.add(btnEdit1);
 		
-		JLabel lblStudentNumber = new JLabel("Student Number:");
+		JLabel lblStudentNumber = new JLabel("Student Number: "+dbstudnum);
 		lblStudentNumber.setForeground(new Color(255, 255, 255));
-		lblStudentNumber.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblStudentNumber.setBounds(46, 179, 121, 26);
+		lblStudentNumber.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblStudentNumber.setBounds(46, 179, 160, 26);
 		contentPane.add(lblStudentNumber);
 		
-		txtStudNum = new JTextField("Student Number");
+		txtStudNum = new JTextField("Student Number: "+dbstudnum);
 		txtStudNum.setBackground(SystemColor.text);
 		txtStudNum.setColumns(10);
 		txtStudNum.setBounds(46, 202, 189, 23);
@@ -149,29 +178,28 @@ public class Profile extends JFrame implements Runnable {
 		btnEdit2.setBounds(264, 202, 58, 23);
 		contentPane.add(btnEdit2);
 		
-		JLabel lblEmail = new JLabel("Email:");
+		JLabel lblEmail = new JLabel("Email: "+dbemail);
 		lblEmail.setForeground(new Color(255, 255, 255));
-		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblEmail.setBounds(46, 232, 60, 26);
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblEmail.setBounds(46, 232, 160, 26);
 		contentPane.add(lblEmail);
 		
-		txtEmail = new JTextField("Email");
-		txtEmail.setBackground(SystemColor.text);
-		txtEmail.setColumns(10);
+		txtEmail = new JLabel("Email: "+dbemail);
+		txtEmail.setForeground(new Color(255,255,255));
 		txtEmail.setBounds(46, 255, 189, 23);
 		contentPane.add(txtEmail);
-		
+		/*
 		btnEdit3 = new JButton("Edit");
 		btnEdit3.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		btnEdit3.setForeground(SystemColor.windowText);
 		btnEdit3.setBackground(SystemColor.text);
 		btnEdit3.setBounds(264, 255, 58, 23);
 		contentPane.add(btnEdit3);
-		
-		JLabel lblPassword = new JLabel("Password:");
+		*/
+		JLabel lblPassword = new JLabel("Password: "+"---");
 		lblPassword.setForeground(new Color(255, 255, 255));
-		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		lblPassword.setBounds(46, 285, 60, 26);
+		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		lblPassword.setBounds(46, 285, 160, 26);
 		contentPane.add(lblPassword);
 		
 		btnEdit4 = new JButton("Edit");
@@ -181,7 +209,7 @@ public class Profile extends JFrame implements Runnable {
 		btnEdit4.setBounds(264, 308, 58, 23);
 		contentPane.add(btnEdit4);
 		
-		pwPassword = new JPasswordField("Password");
+		pwPassword = new JPasswordField("Password: "+"---");
 		pwPassword.setBackground(SystemColor.text);
 		pwPassword.setBounds(46, 308, 189, 23);
 		contentPane.add(pwPassword);
@@ -231,6 +259,55 @@ public class Profile extends JFrame implements Runnable {
 	}
 
 	public void setupListener() {
+		btnEdit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+					String strName=txtName.getText().trim();
+					String strSQLQuery = "UPDATE tbluser SET strname = '"+strName+"' WHERE stremail = '"+dbemail+"';";
+					objSQLQuery.executeUpdate(strSQLQuery);//
+				} catch (SQLException e) {
+					System.out.println("Problem adding information..");
+					e.printStackTrace();
+				}
+			}
+		});
+		btnEdit1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+					String strCollege=txtCollege.getText().trim();
+					String strSQLQuery = "UPDATE tbluser SET strcollege = '"+strCollege+"' WHERE stremail= '"+dbemail+"';";
+					objSQLQuery.executeUpdate(strSQLQuery);//
+				} catch (SQLException e) {
+					System.out.println("Problem adding information..");
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		btnEdit2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+					String strStudNum=txtStudNum.getText().trim();
+					String strSQLQuery = "UPDATE tbluser SET strstudnum = '"+strStudNum+"' WHERE stremail= '"+dbemail+"';";
+					objSQLQuery.executeUpdate(strSQLQuery);//
+				} catch (SQLException e) {
+					System.out.println("Problem adding information..");
+					e.printStackTrace();
+				}
+			}
+		});
+		btnEdit4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				try {
+					String strPassword=pwPassword.getText().trim();
+					String strSQLQuery = "UPDATE tbluser SET strpass = '"+strPassword+"' WHERE stremail= '"+dbemail+"';";
+					objSQLQuery.executeUpdate(strSQLQuery);//
+				} catch (SQLException e) {
+					System.out.println("Problem adding information..");
+					e.printStackTrace();
+				}
+			}
+		});
 		txtName.addMouseListener(new MouseAdapter() {
            		 public void mouseClicked(MouseEvent objME) {
 				txtName.setText(null); 
@@ -286,14 +363,14 @@ public class Profile extends JFrame implements Runnable {
 				txtStudNum.setText(strStudNum );
 			}
 		});
-
+		/*
 		btnEdit3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strEmail = txtEmail.getText().trim();
 				txtEmail.setText(strEmail);
 			}
 		});
-		
+		*/
 		btnEdit4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strPassword = pwPassword.getText().trim();
