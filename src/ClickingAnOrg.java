@@ -36,6 +36,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 	private JButton btnEdit;
 	private JTextField txtWritePost;
 	private JButton btnSavePost;
+	private JButton btnNewsfeed;
 
 	private Connection objConn;
 	private boolean boolConn2Db;
@@ -160,11 +161,11 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblEmail.setBounds(73, 261, 248, 23);
 		contentPane.add(lblEmail);
 		
-		JLabel lblNewsfeed = new JLabel("NEWS FEED");//CHANGE MENU
-		lblNewsfeed.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewsfeed.setForeground(Color.WHITE);
-		lblNewsfeed.setBounds(73, 330, 248, 69);
-		contentPane.add(lblNewsfeed);
+		btnNewsfeed = new JButton("NEWS FEED");//CHANGE MENU
+		btnNewsfeed.setHorizontalAlignment(SwingConstants.CENTER);
+		btnNewsfeed.setForeground(Color.BLACK);
+		btnNewsfeed.setBounds(73, 330, 248, 69);
+		contentPane.add(btnNewsfeed);
 		
 		btnNewButton = new JButton("Join this Org");
 		btnNewButton.setBounds(73, 410, 110, 23);
@@ -215,8 +216,6 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                 	 Timestamp dtime = objResultSet.getTimestamp("dtime");
 			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
 			 String strtime = sdf.format(dtime);                  
-
-			 lblNewsfeed.setText(strheading + "\n" + strbody + "\n" + strtime);//still displays in straight line 
            	 	}  // while (objResultSet.next())
 
 		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
@@ -262,7 +261,6 @@ public class ClickingAnOrg extends JFrame implements Runnable{
                 	 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
                 	 String strtime = sdf.format(dtime);                  
 
-			 lblNewsfeed.setText(strheading + "\n" + strbody + "\n" + strtime);//still displays in straight line 
            	 	}  // while (objResultSet.next())
 
 		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
@@ -287,7 +285,13 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 				WriteAPost();
 			}
 		});
-	
+		
+		btnNewsfeed.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent objAE) {
+				MainActivity.ActivityNewsFeedSpecific();
+				ClickingAnOrg.this.dispose();
+			}
+		});
 		
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {

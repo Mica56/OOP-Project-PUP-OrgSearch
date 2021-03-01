@@ -15,6 +15,10 @@ public class MainActivity{
 		Thread NewsFeedGUI = new Thread(new NewsFeed());
 		NewsFeedGUI.start();
 	}
+	public static void ActivityNewsFeedSpecific() {
+		Thread NewsFeedSGUI = new Thread(new NewsFeedSpecific());
+		NewsFeedSGUI.start();
+	}
 	public static void ActivityProfile() {
 		Thread ProfileGUI = new Thread(new Profile());
 		ProfileGUI.start();
