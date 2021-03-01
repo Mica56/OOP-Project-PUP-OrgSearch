@@ -23,6 +23,12 @@ public class MainActivity{
 		Thread CreateOrgGUI = new Thread(new CreateAnOrg());
 		CreateOrgGUI.start();
 	}	
+
+	public static void ActivityEditOrg(String strOrgName) {
+		Thread EditOrgGUI = new Thread(new EditOrg(strOrgName));
+		EditOrgGUI.start();
+	}
+
 	public static void ActivityLeaveOrg() {
 		Thread LeaveOrgGUI = new Thread(new LeaveAnOrg());
 		LeaveOrgGUI.start();

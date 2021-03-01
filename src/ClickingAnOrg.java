@@ -148,6 +148,8 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		btnEdit.setBounds(247, 76, 74, 23);
 		contentPane.add(btnEdit);
 		
+		
+		
 		JLabel lblOrganization = new JLabel("Organization #1");
 		lblOrganization.setHorizontalAlignment(SwingConstants.CENTER);
 		lblOrganization.setForeground(Color.WHITE);
@@ -233,12 +235,15 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 				WriteAPost();
 			}
 		});
+	
 		
-		/*btnEdit.addActionListener(new ActionListener() {
+		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
-										
+				MainActivity.ActivityEditOrg(Search.selectedSOrg);
+				ClickingAnOrg.this.dispose();	
 			}
-		});*/
+		});
+
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
@@ -278,6 +283,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 			}
 		});
 
+
 		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
@@ -296,6 +302,7 @@ public class ClickingAnOrg extends JFrame implements Runnable{
         			}// try
 			}
 		});
+
 		
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
@@ -336,21 +343,5 @@ public class ClickingAnOrg extends JFrame implements Runnable{
    			System.out.println(objEx);
 
 		}
-		/*
-		 * 		    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
-                                   "FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
-
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-           
-                    while (objResultSet.next()) {
-
-               		 String strheading = objResultSet.getString("strheading");
-                	 String strbody = objResultSet.getString("strbody");
-                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
-			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-			 String strtime = sdf.format(dtime);  
-			 
-			 
-		 */
 	}
 }

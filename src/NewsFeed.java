@@ -123,6 +123,7 @@ public class NewsFeed extends JFrame implements Runnable {
 				NewsFeed.this.dispose();
 			}
 		});
+
 		
 		JButton btnProfileButton = new JButton("Profile");
 		btnProfileButton.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -164,6 +165,7 @@ public class NewsFeed extends JFrame implements Runnable {
                     String strSQLQuery = "SELECT strheading, strbody, dtime " +
                                                       "FROM tblposts " + 
                                                       "WHERE strorgname = '" + strorgsjoined + "';";            
+
       		    objPosts = new ArrayList<String>();
                     objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
