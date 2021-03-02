@@ -122,7 +122,7 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		btnUploadOrgPhoto.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				JFrame f = new JFrame("Upload Organization Photo");
-				strimgpath = JOptionPane.showInputDialog(f,"Enter image path");  
+				strimgpath = JOptionPane.showInputDialog(f,"Enter image file name");  
 			}
 		});
 		btnDone = new JButton("Done");
