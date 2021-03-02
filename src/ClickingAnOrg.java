@@ -26,7 +26,7 @@ import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-public class ClickingAnOrg extends JFrame implements Runnable{
+public class ClickingAnOrg extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JButton btnWriteAPost;
@@ -44,14 +44,14 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 	private ResultSet objResultSet;
 	private String strSQLQuery;
 
-	public void run() {//something wrong with WriteAPost() because of this
+	public void run() {
 		try {
 			ClickingAnOrg frame = new ClickingAnOrg();
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	ClickingAnOrg() {
 		String strDriver = "com.mysql.cj.jdbc.Driver";
@@ -67,16 +67,17 @@ public class ClickingAnOrg extends JFrame implements Runnable{
             objSQLQuery = objConn.createStatement(); 
              
             boolConn2Db = true;
+            
         } catch (Exception objEx) {
             System.out.println("Problem retrieving information..");
             System.out.println(objEx);
-        }  // try
+        }  //try
 
         if (boolConn2Db) {
             ClickingAnOrgGUI();
             setupListener();
-        }  // if (boolConn2Db)
-    }  // Search() 
+        }  //if (boolConn2Db)
+    }  //ClickingAnOrg() 
 
 	public void ClickingAnOrgGUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -110,38 +111,26 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setBounds(160, 111, 161, 23);
 		contentPane.add(lblNewLabel);
-		
-		//insert counting here
-		/* String strSQLQuery = "SELECT strorgname FROM tblorg ";   
-		 * objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-		 *  while (objResultSet.next()) {
-                    			 
-                       		   String strDatalower = (objResultSet.getString("strorgname").trim()).toLowerCase();
-                       		   String strDataupper = (objResultSet.getString("strorgname").trim()).toUpperCase();
-                       		   
-                       		   if(strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper)) {
-                       			   strorgname = objResultSet.getString("strorgname");
-                       			   objOrgFound.add(strorgname);
-                       			   boolFound=true;
-                       			   
-                       		   }
-		 */
+
 		int intmembercount=0;
 		System.out.println("CAN: "+Search.selectedSOrg);
+		
 		try {
 			strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin ";
 			objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+			
 			while (objResultSet.next()) {
 				String strorgname=objResultSet.getString("strorgsjoined").trim();
 				System.out.println(strorgname);
+				
 				if(strorgname.contentEquals(Search.selectedSOrg)) {
 					intmembercount++;
 					System.out.println("Numbers: "+intmembercount);
-				}
-			}
+				} //if(strorgname.contentEquals(Search.selectedSOrg))
+			} //while (objResultSet.next())
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
+		} //try
 		
 		JLabel lblNumOfMembers = new JLabel("Num Of Members: "+intmembercount);
 		lblNumOfMembers.setForeground(new Color(255, 255, 255));
@@ -190,178 +179,166 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		contentPane.add(lblOrganization);
 		
 		if(LeaveAnOrg.boolLeaveAnOrg) {
-		try {
-                    strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
-                                                      "FROM tblorg " + 
-                                                      "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
+			try {
+				strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
+						"FROM tblorg " + "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
                     
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-                            lblOrganization.setText(objResultSet.getString("strorgname"));
-                            lblNewLabel.setText(objResultSet.getString("strorgtype"));
-                            lblEmail.setText(objResultSet.getString("strorgemail"));
-                            lblDescription.setText(objResultSet.getString("strorgdes"));                       
-                    }  // while (objResultSet.next()) 
+				while (objResultSet.next()) {
+					lblOrganization.setText(objResultSet.getString("strorgname"));
+					lblNewLabel.setText(objResultSet.getString("strorgtype"));
+					lblEmail.setText(objResultSet.getString("strorgemail"));
+					lblDescription.setText(objResultSet.getString("strorgdes"));                       
+				}  // while (objResultSet.next()) 
 		
-                    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
-                                   "FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
+				strSQLQuery = "SELECT strheading, strbody, dtime " +
+						"FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
 
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
+				while (objResultSet.next()) {
+					String strheading = objResultSet.getString("strheading");
+					String strbody = objResultSet.getString("strbody");
+					Timestamp dtime = objResultSet.getTimestamp("dtime");
+				
+					SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
+					String strtime = sdf.format(dtime);                  
+				}  //while (objResultSet.next())
 
-               		 String strheading = objResultSet.getString("strheading");
-                	 String strbody = objResultSet.getString("strbody");
-                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
-			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-			 String strtime = sdf.format(dtime);                  
-           	 	}  // while (objResultSet.next())
-
-		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
-                                    "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
-                    
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+				strSQLQuery = "SELECT strimgpath FROM tblimg " + "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
+				
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-			    String strimgpath = objResultSet.getString("strimgpath");
-			    System.out.println(strimgpath);
-                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));                     
-                    }  // while (objResultSet.next()) 
-                } catch (Exception objEx) {
-                    System.out.println("Problem retrieving information..");
-                    System.out.println(objEx);
-                }  // try
+				while (objResultSet.next()) {
+					String strimgpath = objResultSet.getString("strimgpath");
+					System.out.println(strimgpath);
+					lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));                     
+				}  // while (objResultSet.next()) 
+			
+			} catch (Exception objEx) {
+				System.out.println("Problem retrieving information..");
+				System.out.println(objEx);
+			}  //try
 		}// if(LeaveAnOrg.boolLeaveAnOrg)
 
 		if(Search.boolSearch) {
-		try {
-                    String strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
-                                                      "FROM tblorg " + 
-                                                      "WHERE strorgname = '" + Search.selectedSOrg + "';";            
-                    
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+			try {
+				String strSQLQuery = "SELECT strorgname, strorgtype, strorgemail, strorgdes " +
+						"FROM tblorg " + "WHERE strorgname = '" + Search.selectedSOrg + "';";            
+			
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-                            lblOrganization.setText(objResultSet.getString("strorgname"));
-                            lblNewLabel.setText(objResultSet.getString("strorgtype"));
-                            lblEmail.setText(objResultSet.getString("strorgemail"));
-                            lblDescription.setText(objResultSet.getString("strorgdes"));                       
-                    }  // while (objResultSet.next()) 
+				while (objResultSet.next()) {
+					lblOrganization.setText(objResultSet.getString("strorgname"));
+					lblNewLabel.setText(objResultSet.getString("strorgtype"));
+					lblEmail.setText(objResultSet.getString("strorgemail"));
+					lblDescription.setText(objResultSet.getString("strorgdes"));                       
+				}  // while (objResultSet.next()) 
 		
-                    strSQLQuery = "SELECT strheading, strbody, dtime " +//have to modify this and the db
-                                   "FROM tblposts WHERE strorgname = '" + Search.selectedSOrg + "';"; 
+				strSQLQuery = "SELECT strheading, strbody, dtime " +
+						"FROM tblposts WHERE strorgname = '" + Search.selectedSOrg + "';"; 
 
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
+				while (objResultSet.next()) {
+					String strheading = objResultSet.getString("strheading");
+					String strbody = objResultSet.getString("strbody");
+					Timestamp dtime = objResultSet.getTimestamp("dtime");
+					SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
+					String strtime = sdf.format(dtime);                  
+				}  //while (objResultSet.next())
 
-               		 String strheading = objResultSet.getString("strheading");
-                	 String strbody = objResultSet.getString("strbody");
-                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
-                	 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-                	 String strtime = sdf.format(dtime);                  
-
-           	 	}  // while (objResultSet.next())
-
-		    strSQLQuery = "SELECT strimgpath FROM tblimg " + 
-                                    "WHERE strorgname = '" + Search.selectedSOrg + "';";            
+				strSQLQuery = "SELECT strimgpath FROM tblimg " + 
+						"WHERE strorgname = '" + Search.selectedSOrg + "';";            
                     
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-			    String strimgpath = objResultSet.getString("strimgpath");
-			    System.out.println(strimgpath);
-                            lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));
-                    }  // while (objResultSet.next())
-                } catch (Exception objEx) {
-                    System.out.println("Problem retrieving information..");
-                    System.out.println(objEx);
-                }  // try 
+				while (objResultSet.next()) {
+					String strimgpath = objResultSet.getString("strimgpath");
+					System.out.println(strimgpath);
+					lblOrgLogo.setIcon(new ImageIcon("C:\\Users\\mikay\\OneDrive\\Documents\\Java Files\\src\\image\\"+strimgpath));
+				}  // while (objResultSet.next())
+				
+			} catch (Exception objEx) {
+				System.out.println("Problem retrieving information..");
+				System.out.println(objEx);
+			}  // try 
 		}// if(Search.boolSearch)
-	}
+	} //public void ClickingAnOrgGUI()
 
 	public void setupListener() {
 		btnWriteAPost.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				WriteAPost();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnWriteAPost.addActionListener(new ActionListener()
 		
 		btnNewsfeed.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityNewsFeedSpecific();
 				ClickingAnOrg.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnNewsfeed.addActionListener(new ActionListener()
 		
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityEditOrg(Search.selectedSOrg);
 				ClickingAnOrg.this.dispose();	
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit.addActionListener(new ActionListener()
 
 
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				if(LeaveAnOrg.boolLeaveAnOrg) {
-				try {		
-		    		    String strSQLInsert = "INSERT INTO tblorgsjoin " + 
-                                              "(strorgsjoined, struser) VALUES " + 
-                                              "('" + LeaveAnOrg.selectedLOrg + "', '" + Homescreen.struseremail + "');"; 
+					try {		
+						String strSQLInsert = "INSERT INTO tblorgsjoin " + "(strorgsjoined, struser) VALUES " + 
+								"('" + LeaveAnOrg.selectedLOrg + "', '" + Homescreen.struseremail + "');"; 
             
-           			    objSQLQuery.executeUpdate(strSQLInsert);
-           			    System.out.println("Rows inserted on the table..");
+						objSQLQuery.executeUpdate(strSQLInsert);
+						System.out.println("Rows inserted on the table..");
 
-       				 } catch (Exception objEx) {
-
-           			 System.out.println("Problem adding information..");
-            			System.out.println(objEx);
-
-        			}// try
+					} catch (Exception objEx) {
+						System.out.println("Problem adding information..");
+						System.out.println(objEx);
+					}// try
 				}// if(LeaveAnOrg.boolLeaveAnOrg)
 
 				if(Search.boolSearch) {
-				try {
-                    		    String strSQLInsert = "INSERT INTO tblorgsjoin " + 
-                                              "(strorgsjoined, struser) VALUES " + 
-                                              "('" + Search.selectedSOrg + "', '" + Homescreen.struseremail  + "');"; 
+					try {
+						String strSQLInsert = "INSERT INTO tblorgsjoin " + "(strorgsjoined, struser) VALUES " + 
+								"('" + Search.selectedSOrg + "', '" + Homescreen.struseremail  + "');"; 
             
-           			    objSQLQuery.executeUpdate(strSQLInsert);
-           			    System.out.println("Rows inserted on the table..");
+						objSQLQuery.executeUpdate(strSQLInsert);
+						System.out.println("Rows inserted on the table..");
 
-       				 } catch (Exception objEx) {
-
-           			 System.out.println("Problem adding information..");
-            			System.out.println(objEx);
-
-        			}// try
+					} catch (Exception objEx) {
+						System.out.println("Problem adding information..");
+						System.out.println(objEx);
+					}// try
 				}// if(Search.boolSearch)	
-			}
-		});
-
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnNewButton.addActionListener(new ActionListener()
 
 		btnLeaveThisOrg.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				if(LeaveAnOrg.boolLeaveAnOrg) {
-				try {
-                    		    String strSQLInsert = "DELETE FROM tblorgsjoin WHERE struser = '" +                                
-                                            		 Homescreen.struseremail + "' AND strorgsjoined = '" + LeaveAnOrg.selectedLOrg + "';"; 
+					try {
+						String strSQLInsert = "DELETE FROM tblorgsjoin WHERE struser = '" +                                
+								Homescreen.struseremail + "' AND strorgsjoined = '" + LeaveAnOrg.selectedLOrg + "';"; 
             
-           			    objSQLQuery.executeUpdate(strSQLInsert);
+						objSQLQuery.executeUpdate(strSQLInsert);
            			    System.out.println("Row deleted from the table..");
 
        				 } catch (Exception objEx) {
-
-           			 System.out.println("Problem deleting information..");
-				 JOptionPane.showMessageDialog(null, "You're not a member yet!");
+       					 System.out.println("Problem deleting information..");
+       					 JOptionPane.showMessageDialog(null, "You're not a member yet!");
             			 System.out.println(objEx);
-
-        			}// try
+       				 }// try
 				}// if(LeaveAnOrg.boolLeaveAnOrg)
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnLeaveThisOrg.addActionListener(new ActionListener()
 
 		
 		btnBack.addActionListener(new ActionListener() {
@@ -370,15 +347,15 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 				ClickingAnOrg.this.dispose();
 				LeaveAnOrg.boolLeaveAnOrg = false;
 				Search.boolSearch = false;
-			}
-		});
-	}
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnBack.addActionListener(new ActionListener()
+	} //public void setupListener()
 
 	public void WriteAPost() {
 		ClickingAnOrg frmWitePost = new ClickingAnOrg();
 		frmWitePost.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);    
    		frmWitePost.setSize(400, 200);  
-    		frmWitePost.setLayout(new FlowLayout());
+   		frmWitePost.setLayout(new FlowLayout());
 
 		txtWritePost = new JTextField(30);
 		frmWitePost.add(txtWritePost);  
@@ -388,20 +365,16 @@ public class ClickingAnOrg extends JFrame implements Runnable{
 		String strPostTitle = JOptionPane.showInputDialog(frmWitePost,"Enter Title:");
 		String strPostBody = JOptionPane.showInputDialog(null,"Write Body:");
 		System.out.println(strPostTitle+"|"+strPostBody);
+		
 		try {
 			String insertPostStatement = "INSERT INTO tblposts (strheading,strbody,dtime,strorgname) VALUES " + "('"+strPostTitle+"','"+strPostBody+"',"+"NOW()"+",'"+Search.selectedSOrg+"');";  
 			objSQLQuery.executeUpdate(insertPostStatement);
 			System.out.println("Successfully added post to the table");
-			/*
-			 * 			String strSQLInsert = "INSERT INTO " + strdbName + "(StudentName, HSGradeAverage, PUPCETScore, StudentNumber, Password) " +	"VALUES " + "('"+Name+"', "+Average+", "+Score+", '"+StudentNumber+"', '"+Password+"')";		
-						Statement objSQLQuery = objConn.createStatement();
-						objSQLQuery.executeUpdate(strSQLInsert);
-			 */
-		}catch (Exception objEx) {
 
+		}catch (Exception objEx) {
   			System.out.println("Problem adding posts information..");
    			System.out.println(objEx);
 
-		}
-	}
-}
+		} //try
+	} //public void WriteAPost() 
+} //public class ClickingAnOrg extends JFrame implements Runnable

@@ -43,11 +43,11 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	LeaveAnOrg() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -63,14 +63,15 @@ public class LeaveAnOrg extends JFrame implements Runnable {
         } catch (Exception objEx) {
             System.out.println("Problem retrieving information..");
             System.out.println(objEx);
-        }  // try
+        }  //try
 
         if (boolConn2Db) {
             LeaveAnOrgGUI();
-        }  // if (boolConn2Db)
-    }  // Profile() 
+        }  //if (boolConn2Db)
+    }  //LeaveAnOrg() 
 
 	public void LeaveAnOrgGUI() {
+		
 		setTitle("Leave An Organization");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 400, 500);
@@ -106,27 +107,27 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				LeaveAnOrg.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnNewButton.addActionListener(new ActionListener()
 		
 		try {
-		    struseremail = Homescreen.struseremail;
-                    String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
-					 "WHERE struser = '" + struseremail + "';";
-         
-      		    objorgs = new ArrayList<String>();
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+			struseremail = Homescreen.struseremail;
+			String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " + "WHERE struser = '" + struseremail + "';";
+			
+			objorgs = new ArrayList<String>();
+			objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-               		 String strorgsjoined = objResultSet.getString("strorgsjoined");              
-
-			 objorgs.add(strorgsjoined);
-           	 	}  // while (objResultSet.next())
-		   objResultSet.close();             
-       		 } catch (Exception objEx) {
-           		 System.out.println("Problem retrieving information..");
-           		 System.out.println(objEx);
-       		 }// try
+			while (objResultSet.next()) {
+				String strorgsjoined = objResultSet.getString("strorgsjoined");              
+				objorgs.add(strorgsjoined);
+			}  //while (objResultSet.next())
+			
+				objResultSet.close();
+				
+		} catch (Exception objEx) {
+			System.out.println("Problem retrieving information..");
+			System.out.println(objEx);
+		} //try
 
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(79, 146, 222, 212);
@@ -135,23 +136,17 @@ public class LeaveAnOrg extends JFrame implements Runnable {
 		scrollPane.setViewportView(list);
 
 		list.addListSelectionListener(new ListSelectionListener() {
-
-            		public void valueChanged(ListSelectionEvent objLE) {
-             
-                		int intIndex = list.getSelectedIndex();
+			public void valueChanged(ListSelectionEvent objLE) {
+				
+				int intIndex = list.getSelectedIndex();
 				selectedLOrg = list.getSelectedValue().toString();
-
-                		if (intIndex != -1) {
-                
-                    		MainActivity.ActivityClickingAnOrg();
-				LeaveAnOrg.this.dispose();
-				boolLeaveAnOrg = true;
-         
-               			}  // if (intIndex != -1)
-
-           		 }  // public void valueChanged(ListSelectionEvent objLE)
-
-        	});
-	}
-
-}
+				
+					if (intIndex != -1) {
+                   		MainActivity.ActivityClickingAnOrg();
+                   		LeaveAnOrg.this.dispose();
+                   		boolLeaveAnOrg = true;
+               			}  //if (intIndex != -1)
+			}  //public void valueChanged(ListSelectionEvent objLE)		
+		}); //list.addListSelectionListener(new ListSelectionListener()
+	} //public void LeaveAnOrgGUI()
+} //public class LeaveAnOrg extends JFrame implements Runnable

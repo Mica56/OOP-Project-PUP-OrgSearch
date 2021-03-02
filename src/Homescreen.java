@@ -49,11 +49,11 @@ public class Homescreen implements Runnable {
 			window.frmHomescreen.setVisible(true);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	Homescreen() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -69,11 +69,11 @@ public class Homescreen implements Runnable {
         } catch (Exception objEx) {
             System.out.println("Problem retrieving information..");
             System.out.println(objEx);
-        }  // try
+        }  //try
 
         if (boolConn2Db) {
             HomescreenGUI();
-        }  // if (boolConn2Db)
+        }  //if (boolConn2Db)
     }  // Homescreen() 
 
 	public void HomescreenGUI() {
@@ -158,68 +158,69 @@ public class Homescreen implements Runnable {
 		frmHomescreen.getContentPane().add(btnLogin);
 		
 		txtEmail.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				txtEmail.setText(null); 
-                		
-           	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+			public void mouseClicked(MouseEvent objME) {
+				txtEmail.setText(null);                		
+			}  //public void mouseClicked(MouseEvent objME)
+		}); //txtEmail.addMouseListener(new MouseAdapter()
 
 		pwPassword.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				pwPassword.setText(null); 
-                		
-           	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+			public void mouseClicked(MouseEvent objME) {
+				pwPassword.setText(null); 		
+			}  //public void mouseClicked(MouseEvent objME)
+		}); //pwPassword.addMouseListener(new MouseAdapter()
 
 		pwPassword.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent arg0) {
 				if (pwPassword.getText().equals("Password")){
 					pwPassword.setEchoChar('*');
 					pwPassword.setText("");
-				}
+				} //if (pwPassword.getText().equals("Password"))
 				else {
 					pwPassword.selectAll();
-				}
-			}
-		});
+				} //else
+			} //public void focusGained(FocusEvent arg0)
+		}); //pwPassword.addFocusListener(new FocusAdapter()
+		
 		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {//need to edit
+			public void actionPerformed(ActionEvent objAE) {
 				try {
-                    		boolean boolFound = false;
-                    		String strSQLQuery = "SELECT *FROM tbluser ";
+					boolean boolFound = false;
+					String strSQLQuery = "SELECT *FROM tbluser ";
                    		
-                    		String strComp, strData;
-                    		objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+					String strComp, strData;
+					objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
-                    		strComp = txtEmail.getText().trim();
+					strComp = txtEmail.getText().trim();
            
-                    		while (objResultSet.next()) {
-                        	strData = objResultSet.getString("stremail").trim();  
+					while (objResultSet.next()) {
+						strData = objResultSet.getString("stremail").trim();  
                        
-                        		if (strComp.equals(strData)) {
-                        				String strpass = pwPassword.getText();
-                        				String dbpass = objResultSet.getString("strpass").trim();
-                        				boolFound = true;
-                        				if (strpass.contentEquals(dbpass)) {
-                        					struseremail = strData;
-                            				MainActivity.ActivityNewsFeed();
-                            				frmHomescreen.dispose();
-                        				}
-                        				else {
-                        					JOptionPane.showMessageDialog(null, "Wrong email or password","info",JOptionPane.ERROR_MESSAGE);
-                        				}
-                       			 }  // if (strComp.equals(strData))
-                    		}  // while (objResultSet.next()) 
+						if (strComp.equals(strData)) {
+							String strpass = pwPassword.getText();
+							String dbpass = objResultSet.getString("strpass").trim();
+							boolFound = true;
+							
+							if (strpass.contentEquals(dbpass)) {
+								struseremail = strData;
+								MainActivity.ActivityNewsFeed();
+								frmHomescreen.dispose();
+							} //if (strpass.contentEquals(dbpass))
+							else {
+								JOptionPane.showMessageDialog(null, "Wrong email or password","info",JOptionPane.ERROR_MESSAGE);
+							} //else
+						}  //if (strComp.equals(strData))
+					}  //while (objResultSet.next()) 
 
-                    		if (!boolFound) {
-                       			JOptionPane.showMessageDialog(null, "User email not found!");
-                    		}  // if (!boolFound) 
-                		} catch (Exception objEx) {
-                    			System.out.println("Problem retrieving information..");
-                    			System.out.println(objEx);
-               			 }  // try
-			}
-		});
+					if (!boolFound) {
+						JOptionPane.showMessageDialog(null, "User email not found!");
+					}  //if (!boolFound) 
+					
+				} catch (Exception objEx) {
+					System.out.println("Problem retrieving information..");
+					System.out.println(objEx);
+				}  //try
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnLogin.addActionListener(new ActionListener()
 		
 		JButton btnCreateAppAcc = new JButton("Create Applicant Account");
 		btnCreateAppAcc.setBackground(new Color(255, 255, 255));
@@ -229,8 +230,8 @@ public class Homescreen implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivitySignUp();
 				frmHomescreen.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnCreateAppAcc.addActionListener(new ActionListener()
 		
 		JLabel lblPolytechnicU = new JLabel("Polytechnic University");
 		lblPolytechnicU.setBackground(new Color(255, 255, 255));
@@ -270,5 +271,6 @@ public class Homescreen implements Runnable {
 		lblNewLabel_1.setBackground(new Color(128, 0, 0));
 		lblNewLabel_1.setBounds(0, 0, 310, 461);
 		frmHomescreen.getContentPane().add(lblNewLabel_1);
-	}
-}
+		
+	} //public void HomescreenGUI()
+} //public class Homescreen implements Runnable

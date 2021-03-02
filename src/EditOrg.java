@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-	public class EditOrg extends JFrame implements Runnable{
+	public class EditOrg extends JFrame implements Runnable {
 
 		private JPanel contentPane;
 		private JTextField txtNameOfOrganization;
@@ -44,8 +44,8 @@ import java.sql.Statement;
 				frame.setVisible(true);
 			} catch (Exception e) {
 				e.printStackTrace();
-			}
-		}
+			} //try
+		} //public void run()
 
 		EditOrg(String strOrgName) {
 			this.strOrgName=strOrgName;
@@ -65,12 +65,12 @@ import java.sql.Statement;
 	        } catch (Exception objEx) {
 	            System.out.println("Problem retrieving information..");
 	            System.out.println(objEx);
-	        }  // try
+	        }  //try
 
 	        if (boolConn2Db) {
 	            EditOrgGUI();
-	        }  // if (boolConn2Db)
-	    }  // CreateAnOrg()   
+	        }  //if (boolConn2Db)
+	    }  //EditOrg(String strOrgName)  
 
 		public void EditOrgGUI() {
 			setTitle("Create an Organization");
@@ -125,39 +125,37 @@ import java.sql.Statement;
 			btnDone.setBackground(SystemColor.menu);
 			btnDone.setBounds(194, 377, 89, 30);
 			contentPane.add(btnDone);
-			btnDone.addActionListener(new ActionListener() {//lacks insert to tblimage
+			btnDone.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent objAE) {
 					try {
-	                    		String strorgtype = txtTypeOfOrganization.getText().trim();
-	                    		String strorgemail = txtOrganizationEmail.getText().trim();
-	                  		String strorgdes = txtDescription.getText().trim();
-	                  		System.out.println(strOrgName);
-					String strSQLInsert = "UPDATE tblorg SET " + "strorgtype = '" + strorgtype + "',strorgdes = '" + strorgdes + "',strorgemail = '" + strorgemail +"' WHERE strorgname = '" + strOrgName + "';"; 	            
-	           			 objSQLQuery.executeUpdate(strSQLInsert);
-	           			 System.out.println("Rows inserted on the table..");
+						String strorgtype = txtTypeOfOrganization.getText().trim();
+						String strorgemail = txtOrganizationEmail.getText().trim();
+						String strorgdes = txtDescription.getText().trim();
+						System.out.println(strOrgName);
+					
+						String strSQLInsert = "UPDATE tblorg SET " + "strorgtype = '" + strorgtype + "',strorgdes = '" + strorgdes + "',strorgemail = '" + strorgemail +"' WHERE strorgname = '" + strOrgName + "';"; 	            
+						objSQLQuery.executeUpdate(strSQLInsert);
+						System.out.println("Rows inserted on the table..");
 
-	       				 } catch (Exception objEx) {
+					} catch (Exception objEx) {
+						System.out.println("Problem adding information..");
+						System.out.println(objEx);
 
-	           			 System.out.println("Problem adding information..");
-	            			System.out.println(objEx);
-
-	        			} finally {
-
-	            			if (objConn != null) {
-	            
-	               				try {
-	                    			objConn.close();
-	                			} catch (Exception objEx) {
-	                   			 System.out.println("Problem closing the database!");
-	                   			 System.out.println(objEx.toString());
-	               				 }  // try
-					}  // if (objConn != null)
-
-	       				 }  // try
+					} finally {
+						if (objConn != null) {
+							try {
+								objConn.close();
+							} catch (Exception objEx) {
+								System.out.println("Problem closing the database!");
+								System.out.println(objEx.toString());
+							}  // try
+						}  // if (objConn != null)
+					}  // try
+					
 					MainActivity.ActivityClickingAnOrg();
-					EditOrg.this.dispose();				
-				}
-			});
+					EditOrg.this.dispose();		
+				} //public void actionPerformed(ActionEvent objAE)
+			}); //btnDone.addActionListener(new ActionListener()
 			
 			btnBack = new JButton("Back");
 			btnBack.setBackground(SystemColor.menu);
@@ -167,8 +165,8 @@ import java.sql.Statement;
 				public void actionPerformed(ActionEvent objAE) {
 					MainActivity.ActivityProfile();
 					EditOrg.this.dispose();
-				}
-			});
+				} //public void actionPerformed(ActionEvent objAE)
+			}); //btnBack.addActionListener(new ActionListener()
 			
 			lblSearch = new JLabel("SEARCH");
 			lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
@@ -181,6 +179,6 @@ import java.sql.Statement;
 			lblNewLabel.setIcon(new ImageIcon(CreateAnOrg.class.getResource("/image/PUPLogo (1).png")));
 			lblNewLabel.setBounds(54, 52, 53, 50);
 			contentPane.add(lblNewLabel);
-		}
-
-}
+			
+		} //public void EditOrgGUI()
+	} //public class EditOrg extends JFrame implements Runnable

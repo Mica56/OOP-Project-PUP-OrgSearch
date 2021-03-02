@@ -61,11 +61,11 @@ public class Profile extends JFrame implements Runnable {
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	Profile() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -85,18 +85,20 @@ public class Profile extends JFrame implements Runnable {
 
         if (boolConn2Db) {
             ProfileGUI();
-	    setupListener();
-        }  // if (boolConn2Db)
-    }  // Profile() 
+            setupListener();
+        }  // if(boolConn2Db)
+    }  //Profile() 
 
 	public void ProfileGUI() {
 		System.out.println("homescreen: "+Homescreen.struseremail);
 		try {
-			String strSQLQuery = "SELECT *FROM tbluser;";// 
-			objResultSet = objSQLQuery.executeQuery(strSQLQuery);//
+			String strSQLQuery = "SELECT *FROM tbluser;";
+			objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 			while (objResultSet.next()) {
+				
 				dbemail = (objResultSet.getString("stremail").trim()); 
 				System.out.println("db: "+dbemail);
+				
 				if(dbemail.contentEquals(Homescreen.struseremail)) {
 					System.out.println("true");
 					dbname = (objResultSet.getString("strname").trim());
@@ -105,12 +107,13 @@ public class Profile extends JFrame implements Runnable {
 					dbemail = (objResultSet.getString("stremail").trim());
 					dbpass = (objResultSet.getString("strpass").trim());
 					break;
-				}		
-			}
+				} //if(dbemail.contentEquals(Homescreen.struseremail))
+			} //while (objResultSet.next())
 		} catch (SQLException e) {
 			System.out.println("Problem adding information..");
 			e.printStackTrace();
-		}
+		} //try
+		
 		System.out.println(dbname+" "+dbcollege+" "+dbstudnum+" "+dbemail+" "+dbpass);
 		setTitle("Profile");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -159,7 +162,7 @@ public class Profile extends JFrame implements Runnable {
 		btnEdit1.setBounds(264, 150, 58, 23);
 		contentPane.add(btnEdit1);
 		
-		JLabel lblStudentNumber = new JLabel("Student Number: "+dbstudnum);
+		JLabel lblStudentNumber = new JLabel("Student Number: "+ dbstudnum);
 		lblStudentNumber.setForeground(new Color(255, 255, 255));
 		lblStudentNumber.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		lblStudentNumber.setBounds(46, 179, 160, 26);
@@ -188,14 +191,7 @@ public class Profile extends JFrame implements Runnable {
 		txtEmail.setForeground(new Color(255,255,255));
 		txtEmail.setBounds(46, 255, 189, 23);
 		contentPane.add(txtEmail);
-		/*
-		btnEdit3 = new JButton("Edit");
-		btnEdit3.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		btnEdit3.setForeground(SystemColor.windowText);
-		btnEdit3.setBackground(SystemColor.text);
-		btnEdit3.setBounds(264, 255, 58, 23);
-		contentPane.add(btnEdit3);
-		*/
+
 		JLabel lblPassword = new JLabel("Password: "+"---");
 		lblPassword.setForeground(new Color(255, 255, 255));
 		lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 10));
@@ -246,17 +242,15 @@ public class Profile extends JFrame implements Runnable {
 		lblPOS.setFont(new Font("Tahoma", Font.BOLD, 21));
 		lblPOS.setBounds(108, 11, 230, 36);
 		contentPane.add(lblPOS);
-		
-		//what is this 
-		JLabel lblSearch = new JLabel("SEARCHhhhhhhhhhhhhhhhhh");
+		 
+		JLabel lblSearch = new JLabel("SEARCH");
 		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
 		lblSearch.setForeground(Color.WHITE);
 		lblSearch.setFont(new Font("Tahoma", Font.BOLD, 21));
 		lblSearch.setBounds(108, 41, 99, 36);
 		contentPane.add(lblSearch);
 		
-		
-	}
+	} //public void ProfileGUI()
 
 	public void setupListener() {
 		btnEdit.addActionListener(new ActionListener() {
@@ -268,9 +262,10 @@ public class Profile extends JFrame implements Runnable {
 				} catch (SQLException e) {
 					System.out.println("Problem adding information..");
 					e.printStackTrace();
-				}
-			}
-		});
+				} //try
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit.addActionListener(new ActionListener()
+		
 		btnEdit1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
@@ -280,9 +275,9 @@ public class Profile extends JFrame implements Runnable {
 				} catch (SQLException e) {
 					System.out.println("Problem adding information..");
 					e.printStackTrace();
-				}
-			}
-		});
+				} //try
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit1.addActionListener(new ActionListener()
 		
 		btnEdit2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
@@ -293,9 +288,10 @@ public class Profile extends JFrame implements Runnable {
 				} catch (SQLException e) {
 					System.out.println("Problem adding information..");
 					e.printStackTrace();
-				}
-			}
-		});
+				} //try
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit2.addActionListener(new ActionListener()
+		
 		btnEdit4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
@@ -305,98 +301,88 @@ public class Profile extends JFrame implements Runnable {
 				} catch (SQLException e) {
 					System.out.println("Problem adding information..");
 					e.printStackTrace();
-				}
-			}
-		});
+				} //try
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit4.addActionListener(new ActionListener()
+		
 		txtName.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				txtName.setText(null); 
-                		
+			public void mouseClicked(MouseEvent objME) {
+				txtName.setText(null); 		
            	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+        }); //txtName.addMouseListener(new MouseAdapter()
 
 		txtCollege.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				txtCollege.setText(null); 
-                		
+			public void mouseClicked(MouseEvent objME) {
+				txtCollege.setText(null); 		
            	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+        }); //txtCollege.addMouseListener(new MouseAdapter()
 
 		txtStudNum.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				txtStudNum.setText(null); 
-                		
+			public void mouseClicked(MouseEvent objME) {
+				txtStudNum.setText(null);                		
            	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+        }); //txtStudNum.addMouseListener(new MouseAdapter()
 
 		txtEmail.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				txtEmail.setText(null); 
-                		
+			public void mouseClicked(MouseEvent objME) {
+				txtEmail.setText(null);                 		
            	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+        }); //txtEmail.addMouseListener(new MouseAdapter()
 
 		pwPassword.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
-				pwPassword.setText(null); 
-                		
-           	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+			public void mouseClicked(MouseEvent objME) {
+				pwPassword.setText(null);                		
+           	 }  //public void mouseClicked(MouseEvent objME)
+        }); //pwPassword.addMouseListener(new MouseAdapter()
 
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strName = txtName.getText().trim();
 				txtName.setText(strName);
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit.addActionListener(new ActionListener()
 
 		btnEdit1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strCollege = txtCollege.getText().trim();
 				txtCollege.setText(strCollege);
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit1.addActionListener(new ActionListener()
 		
 		btnEdit2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strStudNum = txtStudNum.getText().trim();
 				txtStudNum.setText(strStudNum );
-			}
-		});
-		/*
-		btnEdit3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent objAE) {
-				String strEmail = txtEmail.getText().trim();
-				txtEmail.setText(strEmail);
-			}
-		});
-		*/
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit2.addActionListener(new ActionListener()
+
 		btnEdit4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				String strPassword = pwPassword.getText().trim();
 				pwPassword.setText(strPassword);
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnEdit4.addActionListener(new ActionListener()
 
 		btnCreateAnOrganization.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityCreateOrg();
 				Profile.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnCreateAnOrganization.addActionListener(new ActionListener()
 		
 		btnLeaveAnOrganization.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityLeaveOrg();
 				Profile.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnLeaveAnOrganization.addActionListener(new ActionListener()
 
 		btnBack.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityNewsFeed();
 				Profile.this.dispose();
-			}
-		});
-	}
-}
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnBack.addActionListener(new ActionListener()
+		
+	} //public void setupListener()
+} //public class Profile extends JFrame implements Runnable
