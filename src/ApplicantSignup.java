@@ -38,11 +38,11 @@ public class ApplicantSignup extends JFrame implements Runnable {
 			frame.setVisible(true);
 		}catch(Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 	
 	ApplicantSignup() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -136,41 +136,36 @@ public class ApplicantSignup extends JFrame implements Runnable {
 		btnFinish.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
-				String strname = txtFullName.getText().trim();
-                    		String strcollege = txtCollege.getText().trim();
-                    		String strstudnum = txtStudentNumber.getText().trim();
-                  		String stremail = txtEmail.getText().trim();
-				String strpass = txtPassword.getText().trim();  
+					String strname = txtFullName.getText().trim();
+					String strcollege = txtCollege.getText().trim();
+					String strstudnum = txtStudentNumber.getText().trim();
+					String stremail = txtEmail.getText().trim();
+					String strpass = txtPassword.getText().trim();  
 
-				String strSQLInsert = "INSERT INTO tbluser " + 
-                                              "(strname, strcollege, strstudnum, stremail, strpass) " + 
-                                              "VALUES " + 
-                                              "('" + strname + "', '" + strcollege + "', '" + strstudnum + "', '" + stremail + "', '" + strpass + "');"; 
+					String strSQLInsert = "INSERT INTO tbluser " + "(strname, strcollege, strstudnum, stremail, strpass) " + 
+							"VALUES " + "('" + strname + "', '" + strcollege + "', '" + strstudnum + "', '" + stremail + "', '" + strpass + "');"; 
             
-           			 objSQLQuery.executeUpdate(strSQLInsert);
-           			 System.out.println("Rows inserted on the table..");
+					objSQLQuery.executeUpdate(strSQLInsert);
+					System.out.println("Rows inserted on the table..");
 
-       				 } catch (Exception objEx) {
+				} catch (Exception objEx) {
+					System.out.println("Problem adding information..");
+					System.out.println(objEx);
 
-           			 System.out.println("Problem adding information..");
-            			System.out.println(objEx);
-
-        			} finally {
-
-            			if (objConn != null) {
-            
-               				try {
-                    			objConn.close();
-                			} catch (Exception objEx) {
-                   			 System.out.println("Problem closing the database!");
-                   			 System.out.println(objEx.toString());
-               				 }  // try
-				}  // if (objConn != null)
-
-       				 }  // try
+				} finally {
+					if (objConn != null) {
+						try {
+							objConn.close();
+						} catch (Exception objEx) {
+							System.out.println("Problem closing the database!");
+							System.out.println(objEx.toString());
+						}  //try
+					}  //if (objConn != null)
+				}  //try
+				
 				MainActivity.ActivityMain();
 				ApplicantSignup.this.dispose();
-			}
-		});
-	}
-}
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnFinish.addActionListener(new ActionListener()
+	} //public void ApplicantSignupGUI()
+} //public class ApplicantSignup extends JFrame implements Runnable

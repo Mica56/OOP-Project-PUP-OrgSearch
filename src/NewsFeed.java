@@ -45,11 +45,11 @@ public class NewsFeed extends JFrame implements Runnable {
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	NewsFeed() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -94,8 +94,8 @@ public class NewsFeed extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityMain();
 				NewsFeed.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnLogout.addActionListener(new ActionListener()
 		
 		JLabel lblPOS = new JLabel("PUP ORGANIZATION");
 		lblPOS.setHorizontalAlignment(SwingConstants.CENTER);
@@ -121,10 +121,9 @@ public class NewsFeed extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivitySearch();
 				NewsFeed.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnSearch.addActionListener(new ActionListener()
 
-		
 		JButton btnProfileButton = new JButton("Profile");
 		btnProfileButton.setFont(new Font("Tahoma", Font.BOLD, 10));
 		btnProfileButton.setForeground(new Color(0, 0, 0));
@@ -135,76 +134,62 @@ public class NewsFeed extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				NewsFeed.this.dispose();
-				/*if (objConn != null) {
-            
-               				try {
-                    			objConn.close();
-                			} catch (Exception objEx) {
-                   			 System.out.println("Problem closing the database!");
-                   			 System.out.println(objEx.toString());
-               				 }  // try
-				}  // if (objConn != null)*/
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnProfileButton.addActionListener(new ActionListener()
 
 		try {
-                    String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " +
-					 "WHERE struser = '" + Homescreen.struseremail + "';";
+			String strSQLQuery = "SELECT strorgsjoined FROM tblorgsjoin " + "WHERE struser = '" + Homescreen.struseremail + "';";
          
 		    objorgsjoined = new ArrayList<String>();
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+		    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
            
-                    while (objResultSet.next()) {
-               		 String strorgsjoined = objResultSet.getString("strorgsjoined");
-			
-			 objorgsjoined.add(strorgsjoined);              
+		    while (objResultSet.next()) {
+		    	String strorgsjoined = objResultSet.getString("strorgsjoined");
+		    	objorgsjoined.add(strorgsjoined);              
            	 	}  // while (objResultSet.next())
-		   objResultSet.close();             
-       		 } catch (Exception objEx) {
-           		 System.out.println("Problem retrieving information..");
-           		 System.out.println(objEx);
-       		 }// try
+		    
+		   objResultSet.close();  
+		   
+		} catch (Exception objEx) {
+			System.out.println("Problem retrieving information..");
+			System.out.println(objEx);
+		}// try
 
 		int count = 0;
-		objPosts = new ArrayList<String>(); 		
-      		while (objorgsjoined.size() > count) {
-		try {
-		    String strorgsjoined = objorgsjoined.get(count);
-                    String strSQLQuery = "SELECT strheading, strbody, dtime " +
-                                                      "FROM tblposts " + 
-                                                      "WHERE strorgname = '" + strorgsjoined + "';";            
-
-                    objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+		objPosts = new ArrayList<String>(); 	
+		
+		while (objorgsjoined.size() > count) {
+			try {
+				String strorgsjoined = objorgsjoined.get(count);
+				String strSQLQuery = "SELECT strheading, strbody, dtime " + "FROM tblposts " +  "WHERE strorgname = '" + strorgsjoined + "';";            
+				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
 		    while (objResultSet.next()) {
-               		 String strheading = objResultSet.getString("strheading");
-                	 String strbody = objResultSet.getString("strbody");
-                	 Timestamp dtime = objResultSet.getTimestamp("dtime");
-			 SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
-			 
-			 String strtime = sdf.format(dtime);                  
+		    	String strheading = objResultSet.getString("strheading");
+		    	String strbody = objResultSet.getString("strbody");
+		    	Timestamp dtime = objResultSet.getTimestamp("dtime");
+		    	SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");
+		    	String strtime = sdf.format(dtime);                  
 
-			 objPosts.add(strheading);
-			 objPosts.add(strbody);
-			 objPosts.add(strtime);
-		   }  // while (objResultSet.next())
-		   objResultSet.close();
+		    	objPosts.add(strheading);
+		    	objPosts.add(strbody);
+		    	objPosts.add(strtime);
+		    }  //while (objResultSet.next())
+		    
+		    	objResultSet.close();
 		                 
-       		 } catch (Exception objEx) {
-
-           		 System.out.println("Problem retrieving information..");
-           		 System.out.println(objEx);
-
-       		 }// try
-		 count++;
-		}// while (objorgsjoined.size() > count)
+			} catch (Exception objEx) {
+				System.out.println("Problem retrieving information..");
+				System.out.println(objEx);
+			} //try
+				count++;
+		} //while (objorgsjoined.size() > count)
 		
-		//PRINT NEWS FEED HERE FROM DATABASE
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(69, 177, 254, 206);
 		contentPane.add(scrollPane);
 		JList list = new JList(objPosts.toArray());
 		scrollPane.setViewportView(list);	
-	}
-
-}
+		
+	} //public void NewsFeedGUI()
+} //public class NewsFeed extends JFrame implements Runnable

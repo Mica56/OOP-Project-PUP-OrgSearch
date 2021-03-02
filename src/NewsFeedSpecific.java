@@ -45,11 +45,11 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	NewsFeedSpecific() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -65,12 +65,12 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
         } catch (Exception objEx) {
             System.out.println("Problem retrieving information..");
             System.out.println(objEx);
-        }  // try
+        }  //try
 
         if (boolConn2Db) {
             NewsFeedSpecificGUI();
-        }  // if (boolConn2Db)
-    }  // NewsFeed() 
+        }  //if (boolConn2Db)
+    }  //NewsFeedSpecific()
 
 	public void NewsFeedSpecificGUI() {
 		setTitle("News Feed");
@@ -94,8 +94,8 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityMain();
 				NewsFeedSpecific.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnLogout.addActionListener(new ActionListener()
 		
 		JLabel lblPOS = new JLabel("PUP ORGANIZATION");
 		lblPOS.setHorizontalAlignment(SwingConstants.CENTER);
@@ -121,9 +121,8 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivitySearch();
 				NewsFeedSpecific.this.dispose();
-			}
-		});
-
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnSearch.addActionListener(new ActionListener()
 		
 		JButton btnProfileButton = new JButton("Profile");
 		btnProfileButton.setFont(new Font("Tahoma", Font.BOLD, 10));
@@ -135,8 +134,8 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				NewsFeedSpecific.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnProfileButton.addActionListener(new ActionListener()
 
 		try {
             String strSQLQuery = "SELECT *FROM tblposts;"; 
@@ -148,23 +147,23 @@ public class NewsFeedSpecific extends JFrame implements Runnable {
             		objPosts.add(objResultSet.getString("strheading"));
             		objPosts.add(objResultSet.getString("strbody"));
             		objPosts.add(objResultSet.getString("dtime"));
-            	}
-            }// while (objResultSet.next())
-		   objResultSet.close();             
-       		 } catch (Exception objEx) {
+            	} //if(strorgname.contentEquals(Search.selectedSOrg))
+            } //while (objResultSet.next())
+            
+            objResultSet.close();      
+            
+		} catch (Exception objEx) {
            		 System.out.println("Problem retrieving information..");
            		 System.out.println(objEx);
-       		 }// try
+		}// try
 
 		int count = 0;		
       	
-		
-		//PRINT NEWS FEED HERE FROM DATABASE
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(69, 177, 254, 206);
 		contentPane.add(scrollPane);
 		JList list = new JList(objPosts.toArray());
-		scrollPane.setViewportView(list);	
-	}
-
-}
+		scrollPane.setViewportView(list);
+		
+	} //public void NewsFeedSpecificGUI()
+} // public class NewsFeedSpecific extends JFrame implements Runnable

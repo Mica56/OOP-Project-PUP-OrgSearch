@@ -56,11 +56,11 @@ public class Search extends JFrame implements Runnable{
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	Search() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -76,12 +76,12 @@ public class Search extends JFrame implements Runnable{
         } catch (Exception objEx) {
             System.out.println("Problem retrieving information..");
             System.out.println(objEx);
-        }  // try
+        }  //try
 
         if (boolConn2Db) {
             SearchGUI();
-        }  // if (boolConn2Db)
-    }  // Search() 
+        }  //if(boolConn2Db)
+    }  //Search() 
 
 	public void SearchGUI() {
 		setTitle("Search");
@@ -126,91 +126,64 @@ public class Search extends JFrame implements Runnable{
 		scrollPane.setViewportView(list);
 		
 		txtSearch.addMouseListener(new MouseAdapter() {
-           		 public void mouseClicked(MouseEvent objME) {
+			public void mouseClicked(MouseEvent objME) {
 				txtSearch.setText(null); 
-                		
-           	 }  // public void mouseClicked(MouseEvent objME)
-        	});
+            }  //public void mouseClicked(MouseEvent objME)
+        }); //txtSearch.addMouseListener(new MouseAdapter()
 	
 		txtSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
-                   		 boolean boolFound = false;
-                   		 String strSQLQuery = "SELECT strorgname FROM tblorg ";            
+					boolean boolFound = false;
+					String strSQLQuery = "SELECT strorgname FROM tblorg ";            
 
-                   		 String strComp, strorgname;
-                   		 objOrgFound = new ArrayList<String>();
-                    	 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
+					String strComp, strorgname;
+					objOrgFound = new ArrayList<String>();
+					objResultSet = objSQLQuery.executeQuery(strSQLQuery);
 
-                    		 String strComplower = (txtSearch.getText().trim()).toLowerCase();
-                    		 String strCompupper = (txtSearch.getText().trim()).toUpperCase();
-                    		 while (objResultSet.next()) {
-                    			 
-                    			 //insert data algorithm
-                    			 //algorithm
-                    			 //1. set txtfield to uppercase
-                    			 //2. set txtfield to lowercase
-                    			 //3. set dborgname to uppercase
-                    			 //4. set dborgname to lowercase
-                    			 //5. compare uppercases
-                    			 //6. compare lowercases
-                    			 
-                       		   String strDatalower = (objResultSet.getString("strorgname").trim()).toLowerCase();
-                       		   String strDataupper = (objResultSet.getString("strorgname").trim()).toUpperCase();
-                       		   
-                       		   if(strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper)) {
-                       			   strorgname = objResultSet.getString("strorgname");
-                       			   objOrgFound.add(strorgname);
-                       			   boolFound=true;
-                       			   
-                       		   }
+					String strComplower = (txtSearch.getText().trim()).toLowerCase();
+					String strCompupper = (txtSearch.getText().trim()).toUpperCase();
+					
+					while (objResultSet.next()) {
+                    			    			 
+						String strDatalower = (objResultSet.getString("strorgname").trim()).toLowerCase();
+						String strDataupper = (objResultSet.getString("strorgname").trim()).toUpperCase();
 
-                   		/* String strComp, strData, strorgname;
-				 objOrgFound = new ArrayList<String>();
-                    		 objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-
-                    		 strComp = txtSearch.getText().trim();
-           
-                    		 while (objResultSet.next()) {
-                       		   strData = objResultSet.getString("strorgname").trim();  
-                       
-                       		   if (strComp.equals(strData)) {
-					 strorgname = objResultSet.getString("strorgname");
-					 objOrgFound.add(strorgname);
-
-                           		 boolFound = true;
-                           		 break;
-                       		}  // if (strComp.equals(strData))*/
-
-                   		}  // while (objResultSet.next()) 
+						if (strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper)) {
+							strorgname = objResultSet.getString("strorgname");
+							objOrgFound.add(strorgname);
+							boolFound=true;
+						} //if (strComplower.contains(strDatalower)||strCompupper.contains(strDataupper)||strDatalower.contains(strComplower)||strDataupper.contains(strCompupper))
+                   	}  // while (objResultSet.next()) 
+					
                     	if (!boolFound) {
-				strorgname = "Organization not found";
+                    		strorgname = "Organization not found";
                         	objOrgFound.add(strorgname);
-                   	 }  // if (!boolFound) 
-				list = new JList(objOrgFound.toArray());
-				scrollPane.setViewportView(list);
+                   	 	}  //if (!boolFound) 
+                    	
+                    	list = new JList(objOrgFound.toArray());
+                    	scrollPane.setViewportView(list);
 
-				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        			list.addListSelectionListener(new ListSelectionListener() {
-            				public void valueChanged(ListSelectionEvent objLE) {             
-                				int intIndex = list.getSelectedIndex();
-						selectedSOrg = list.getSelectedValue().toString();
+                    	list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+                    	list.addListSelectionListener(new ListSelectionListener() {
+                    		public void valueChanged(ListSelectionEvent objLE) {             
+                    			int intIndex = list.getSelectedIndex();
+                    			selectedSOrg = list.getSelectedValue().toString();
 
                 				if (intIndex != -1) {               
-                    					MainActivity.ActivityClickingAnOrg();
-							Search.this.dispose();
-							boolSearch = true;
-         
-               					}  // if (intIndex != -1)
-           				 }  // public void valueChanged(ListSelectionEvent objLE)
+                					MainActivity.ActivityClickingAnOrg();
+                					Search.this.dispose();
+                					boolSearch = true;
+                				}  //if (intIndex != -1)
+                    		}  //public void valueChanged(ListSelectionEvent objLE)
 
-        			});
+        				}); //list.addListSelectionListener(new ListSelectionListener()
                 	} catch (Exception objEx) {
-                    	  System.out.println("Problem retrieving information..");
-                   	  System.out.println(objEx);
-               	 }  // try
-		}  // public void actionPerformed(ActionEvent objAE)
-        	});
+                		System.out.println("Problem retrieving information..");
+                		System.out.println(objEx);
+               	 	}  //try
+			}  //public void actionPerformed(ActionEvent objAE)
+        }); //txtSearch.addActionListener(new ActionListener()
 
 		JButton btnNewButton = new JButton("Back");
 		btnNewButton.setBounds(151, 407, 89, 23);
@@ -219,8 +192,7 @@ public class Search extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityNewsFeed();				
 				Search.this.dispose();
-			}
-		});	
-		
-	}
-}
+			} //public void actionPerformed(ActionEvent objAE)
+		});	//btnNewButton.addActionListener(new ActionListener()
+	} //public void SearchGUI()
+} //public class Search extends JFrame implements Runnable

@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class CreateAnOrg extends JFrame implements Runnable{
+public class CreateAnOrg extends JFrame implements Runnable {
 
 	private JPanel contentPane;
 	private JTextField txtNameOfOrganization;
@@ -43,11 +43,11 @@ public class CreateAnOrg extends JFrame implements Runnable{
 			frame.setVisible(true);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
-	}
+		} //try
+	} //public void run()
 
 	CreateAnOrg() {
-	String strDriver = "com.mysql.cj.jdbc.Driver";
+		String strDriver = "com.mysql.cj.jdbc.Driver";
         String strConn = "jdbc:mysql://localhost:3306/puporgsearch";
         String strUser = "linus";
         String strPass = "password123";
@@ -123,8 +123,9 @@ public class CreateAnOrg extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent objAE) {
 				JFrame f = new JFrame("Upload Organization Photo");
 				strimgpath = JOptionPane.showInputDialog(f,"Enter image file name");  
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnUploadOrgPhoto.addActionListener(new ActionListener()
+		
 		btnDone = new JButton("Done");
 		btnDone.setBackground(SystemColor.menu);
 		btnDone.setBounds(194, 377, 89, 30);
@@ -132,55 +133,36 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		btnDone.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent objAE) {
 				try {
-				String strorgname = txtNameOfOrganization.getText().trim();
-                    		String strorgtype = txtTypeOfOrganization.getText().trim();
-                    		String strorgemail = txtOrganizationEmail.getText().trim();
-                  		String strorgdes = txtDescription.getText().trim();
+					String strorgname = txtNameOfOrganization.getText().trim();
+					String strorgtype = txtTypeOfOrganization.getText().trim();
+					String strorgemail = txtOrganizationEmail.getText().trim();
+					String strorgdes = txtDescription.getText().trim();
 
-				String strSQLInsert = "INSERT INTO tblorg " + 
-                                              "(strorgname, strorgtype, strorgemail, strorgdes) " + 
-                                              "VALUES " + 
-                                              "('" + strorgname + "', '" + strorgtype + "', '" + strorgemail + "', '" + strorgdes + "');"; 
-            
-           			 objSQLQuery.executeUpdate(strSQLInsert);
+					String strSQLInsert = "INSERT INTO tblorg " +  "(strorgname, strorgtype, strorgemail, strorgdes) " + 
+							"VALUES " + "('" + strorgname + "', '" + strorgtype + "', '" + strorgemail + "', '" + strorgdes + "');"; 
 
-				strSQLInsert = "INSERT INTO tblorgsjoin " + 
-                                              "(strorgsjoined, blcreator, struser) " + 
-                                              "VALUES " + 
-                                              "('" + strorgname + "', 1, '" + Homescreen.struseremail + "');";
+					objSQLQuery.executeUpdate(strSQLInsert);
 
-				 objSQLQuery.executeUpdate(strSQLInsert);
+					strSQLInsert = "INSERT INTO tblorgsjoin " + "(strorgsjoined, blcreator, struser) " + 
+							"VALUES " + "('" + strorgname + "', 1, '" + Homescreen.struseremail + "');";
 
-				strSQLInsert = "INSERT INTO tblimg " + 
-                                              "(strorgname, strimgpath) " + 
-                                              "VALUES " + 
-                                              "('" + strorgname + "', '" + strimgpath + "');";
+					objSQLQuery.executeUpdate(strSQLInsert);
 
-				 objSQLQuery.executeUpdate(strSQLInsert);  
-           			 System.out.println("Rows inserted on the table..");
+					strSQLInsert = "INSERT INTO tblimg " +  "(strorgname, strimgpath) " + 
+							"VALUES " + "('" + strorgname + "', '" + strimgpath + "');";
 
-       				 } catch (Exception objEx) {
+					objSQLQuery.executeUpdate(strSQLInsert);  
+					System.out.println("Rows inserted on the table..");
 
-           			 System.out.println("Problem adding information..");
-            			System.out.println(objEx);
-
-        			} /*finally {
-
-            			if (objConn != null) {
-            
-               				try {
-                    			objConn.close();
-                			} catch (Exception objEx) {
-                   			 System.out.println("Problem closing the database!");
-                   			 System.out.println(objEx.toString());
-               				 }  // try
-				}  // if (objConn != null)
-
-       				 }  // try*/
+				} catch (Exception objEx) {
+					System.out.println("Problem adding information..");
+					System.out.println(objEx);
+				} //try 
+				
 				MainActivity.ActivityProfile();
-				CreateAnOrg.this.dispose();				
-			}
-		});
+				CreateAnOrg.this.dispose();		
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnDone.addActionListener(new ActionListener()
 		
 		btnBack = new JButton("Back");
 		btnBack.setBackground(SystemColor.menu);
@@ -190,8 +172,8 @@ public class CreateAnOrg extends JFrame implements Runnable{
 			public void actionPerformed(ActionEvent objAE) {
 				MainActivity.ActivityProfile();
 				CreateAnOrg.this.dispose();
-			}
-		});
+			} //public void actionPerformed(ActionEvent objAE)
+		}); //btnBack.addActionListener(new ActionListener()
 		
 		lblSearch = new JLabel("SEARCH");
 		lblSearch.setHorizontalAlignment(SwingConstants.CENTER);
@@ -204,6 +186,6 @@ public class CreateAnOrg extends JFrame implements Runnable{
 		lblNewLabel.setIcon(new ImageIcon(CreateAnOrg.class.getResource("/image/PUPLogo (1).png")));
 		lblNewLabel.setBounds(54, 52, 53, 50);
 		contentPane.add(lblNewLabel);
-	}
-
-}
+		
+	} //public void CreateAnOrgGUI()
+} //public class CreateAnOrg extends JFrame implements Runnable
