@@ -35,7 +35,7 @@ CREATE TABLE `tblimg` (
 
 LOCK TABLES `tblimg` WRITE;
 /*!40000 ALTER TABLE `tblimg` DISABLE KEYS */;
-INSERT INTO `tblimg` VALUES ('PUP Sintang Pusa','\"C:UsersmikayOneDriveDocumentsJava Filessrcimagecatto.jpg\"');
+INSERT INTO `tblimg` VALUES ('ASCII','index1.jpg'),('PUP Sintang Aso','Collage_of_Nine_Dogs.jpg'),('PUP Sintang Pusa','catto.jpg'),('PUP-TPG','index.jpg');
 /*!40000 ALTER TABLE `tblimg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +61,7 @@ CREATE TABLE `tblorg` (
 
 LOCK TABLES `tblorg` WRITE;
 /*!40000 ALTER TABLE `tblorg` DISABLE KEYS */;
-INSERT INTO `tblorg` VALUES ('ASCII','Academic','ascii@gmail.com','An academic organization that aims to aid CS students.'),('PUP Sintang Pusa','Non-academic','pupsintangpusa@gmail.com','We exist for the cats. Let us all love cats<3'),('PUP-TPG','Non-Academic','puptpg@gmail.com','An org that aims to develop the programming skills of students.');
+INSERT INTO `tblorg` VALUES ('ASCII','Academic','ascii@gmail.com','An academic organization that aims to aid CS students.'),('PUP Sintang Aso','Non-academic','pupsintangaso@gmail.com','Dahil may sintang pusa, dapat may sintang aso din.'),('PUP Sintang Pusa','Non-academic','pupsintangpusa@gmail.com','We exist for the cats. Let us all love cats<3'),('PUP-TPG','Non-Academic','puptpg@gmail.com','An org that aims to develop the programming skills of students.');
 /*!40000 ALTER TABLE `tblorg` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,7 +85,7 @@ CREATE TABLE `tblorgsjoin` (
 
 LOCK TABLES `tblorgsjoin` WRITE;
 /*!40000 ALTER TABLE `tblorgsjoin` DISABLE KEYS */;
-INSERT INTO `tblorgsjoin` VALUES ('ASCII',1,'michael.tayoto@gmail.com'),('PUP-TPG',1,'micaela.cerilla@gmail.com'),('PUP-TPG',NULL,'michael.tayoto@gmail.com'),('PUP Sintang Pusa',1,'megumichan@gmail.com');
+INSERT INTO `tblorgsjoin` VALUES ('ASCII',1,'michael.tayoto@gmail.com'),('PUP-TPG',NULL,'michael.tayoto@gmail.com'),('PUP Sintang Pusa',1,'megumichan@gmail.com'),('PUP Sintang Aso',1,'megumichan@gmail.com'),('PUP-TPG',1,'micaela.cerilla@gmail.com');
 /*!40000 ALTER TABLE `tblorgsjoin` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -110,7 +110,7 @@ CREATE TABLE `tblposts` (
 
 LOCK TABLES `tblposts` WRITE;
 /*!40000 ALTER TABLE `tblposts` DISABLE KEYS */;
-INSERT INTO `tblposts` VALUES ('PUP-TPG Membership','The online membership for aspiring PUP-TPG members is now open starting from March 05 to 30','2021-02-26 23:18:05','PUP-TPG'),('ASCII Event','The online tutorial sessions for ASCII members will start on March 05, 2021.','2021-02-28 21:32:15','ASCII');
+INSERT INTO `tblposts` VALUES ('PUP-TPG Membership','The online membership for aspiring PUP-TPG members is now open starting from March 05 to 30','2021-02-26 23:18:05','PUP-TPG'),('ASCII Event','The online tutorial sessions for ASCII members will start on March 05, 2021.','2021-02-28 21:32:15','ASCII'),('LOOKING CAT POOPING OFFICERS','We are urgently looking for foster parents for two cute babies, Kuting and Mumu. Please contact us for those interested.','2021-03-01 22:00:51','PUP Sintang Pusa'),('Hello','Do u need cats?','2021-03-02 00:13:00','PUP-TPG');
 /*!40000 ALTER TABLE `tblposts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -150,4 +150,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-03-01 21:48:58
+-- Dump completed on 2021-03-02 14:04:20
