@@ -191,21 +191,7 @@ public class ClickingAnOrg extends JFrame implements Runnable {
 					lblEmail.setText(objResultSet.getString("strorgemail"));
 					lblDescription.setText(objResultSet.getString("strorgdes"));                       
 				}  // while (objResultSet.next()) 
-		
-				strSQLQuery = "SELECT strheading, strbody, dtime " +
-						"FROM tblposts WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";  
-
-				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-           
-				while (objResultSet.next()) {
-					String strheading = objResultSet.getString("strheading");
-					String strbody = objResultSet.getString("strbody");
-					Timestamp dtime = objResultSet.getTimestamp("dtime");
-				
-					SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-					String strtime = sdf.format(dtime);                  
-				}  //while (objResultSet.next())
-
+	
 				strSQLQuery = "SELECT strimgpath FROM tblimg " + "WHERE strorgname = '" + LeaveAnOrg.selectedLOrg + "';";            
 				
 				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
@@ -235,19 +221,6 @@ public class ClickingAnOrg extends JFrame implements Runnable {
 					lblEmail.setText(objResultSet.getString("strorgemail"));
 					lblDescription.setText(objResultSet.getString("strorgdes"));                       
 				}  // while (objResultSet.next()) 
-		
-				strSQLQuery = "SELECT strheading, strbody, dtime " +
-						"FROM tblposts WHERE strorgname = '" + Search.selectedSOrg + "';"; 
-
-				objResultSet = objSQLQuery.executeQuery(strSQLQuery);
-           
-				while (objResultSet.next()) {
-					String strheading = objResultSet.getString("strheading");
-					String strbody = objResultSet.getString("strbody");
-					Timestamp dtime = objResultSet.getTimestamp("dtime");
-					SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:mm");			 
-					String strtime = sdf.format(dtime);                  
-				}  //while (objResultSet.next())
 
 				strSQLQuery = "SELECT strimgpath FROM tblimg " + 
 						"WHERE strorgname = '" + Search.selectedSOrg + "';";            
